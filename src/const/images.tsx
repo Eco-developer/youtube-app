@@ -1,0 +1,1 @@
+export const logo = `${process.env.PUBLIC_URL}/images/YouTube-logo.png`;
