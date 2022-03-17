@@ -3,24 +3,65 @@ import { useEffect, useState } from 'react';
 import * as API from './const/youtube-api';
 import './App.css';
 import axios from 'axios';
+import { Api } from '@mui/icons-material';
+
+const request = axios.create({baseURL: API.BASE_URL});
+
 
 function App() {
   const [tumbnails, setTumbnails] = useState<any | null>(null);
   useEffect(()=> {
 		const fetchApi = async () => {
 			try {
-				const response = await axios.get(`${API.BASE_URL}?part=${API.PART}&maxResults=${API.MAXRESULTS}&order=${API.ORDER}&safeSearch=${API.SAFE}&q=marvel&key=${API.KEY}`);
+				const searchResponse = await request.get(
+					'search',
+					{ 
+						params : {
+							part: 'snippet',
+							maxResults: API.MAXRESULTS,
+							order: API.ORDER,
+							safeSearch: API.SAFE,
+							q: '',
+							key: API.KEY,
+						}
+					}
+				);
 				
-				const { data: { items } } = response;
+				const searchItems : any = searchResponse.data.items.filter((item:any) => !!item.id.videoId).filter((item:any) => !!item.snippet.channelId);
 
-				//buscar los videos
-				const list = await axios.get(`https://www.googleapis.com/youtube/v3/videos?part=id,snippet,contentDetails,statistics,status,topicDetails&id=${items.filter((item:any) => !!item.id.videoId).map((item:any) => item.id.videoId).join(',')}&key=${API.KEY}`);
-				//buscar las imagenes de los canales
-				const chanels = await axios.get(`https://www.googleapis.com/youtube/v3/channels?part=snippet&maxResults=15&id=${items.filter((item:any) => !!item.snippet.channelId).map((item:any) => item.snippet.channelId).join(',')}&key=${API.KEY}`);
+				const videosId = searchItems.map((item:any) => item.id.videoId);
+				const channelsId = Array.from(new Set(searchItems.map((item:any) => item.snippet.channelId)))
 				
-				console.log(chanels.data)
-        setTumbnails(items[0].snippet.thumbnails)
-        console.log(new Set(items.filter((item:any) => !!item.snippet.channelId).map((item:any) => item.snippet.channelId)));
+				const videosResponse = await request.get('videos',
+					{ 
+						params : {
+							part: 'id,snippet,contentDetails,statistics,status,topicDetails',
+							id: videosId.join(','),
+							key: API.KEY,
+						}
+					}
+				);
+
+				
+				const channelsResponse = await request.get('channels',
+					{ 
+						params : {
+						part: 'snippet',
+						id: channelsId.join(','),
+						q:'react',
+						key:API.KEY,
+					}});
+				
+				const homeVideos = searchItems.map((itemSearch: any) => {
+					const videoInfo = videosResponse.data.items.find((itemVideos: any) => itemVideos.id === itemSearch.id.videoId);
+					const channel = channelsResponse.data.items.find((itemChannel: any) => itemChannel.id === itemSearch.snippet.channelId)
+					return {
+						...videoInfo,
+						snippet: {...videoInfo.snippet, ...itemSearch.snippet},
+						channel,
+					}
+				})
+				console.log(homeVideos);
 			} catch (err) {
 				console.error(err)
 			}
