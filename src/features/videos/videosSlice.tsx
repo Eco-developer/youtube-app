@@ -1,31 +1,32 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../../store/index.js';
+import { Video } from '../../interfaces/index';
 
 // Define a type for the slice state
 interface VideoState {
-  value: string
+  data: Video[] | null,
 }
 
 // Define the initial state using that type
 const initialState: VideoState = {
-  value: 'video',
+  data: null,
 }
 
-export const videoSlice = createSlice({
-  name: 'video',
+export const videosSlice = createSlice({
+  name: 'videos',
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
     // Use the PayloadAction type to declare the contents of `action.payload`
-    setVideo: (state, action: PayloadAction<string>) => {
-      state.value = action.payload
+    setVideos: (state, action: PayloadAction<Video[]>) => {
+      state.data = action.payload
     },
   },
 })
 
-export const { setVideo } = videoSlice.actions
+export const { setVideos } = videosSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectCount = (state: RootState) => state.video.value
+export const selectvideos = (state: RootState) => state.videos.data
 
-export default videoSlice.reducer
+export default videosSlice.reducer

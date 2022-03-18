@@ -3,7 +3,7 @@ import  videoReducer  from '../features/videos/videosSlice';
 
 export const store = configureStore({
   reducer: {
-    video: videoReducer,
+    videos: videoReducer,
   },
 })
 

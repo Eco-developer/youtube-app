@@ -1,15 +1,16 @@
 import { Navigation } from './pages';
 import { useEffect, useState } from 'react';
 import * as API from './const/youtube-api';
+import { useAppDispatch } from './hooks/index';
+import { request } from './services/index';
+import { setVideos } from './features/videos/videosSlice';
+import { Video, Channel } from './interfaces/index';
 import './App.css';
-import axios from 'axios';
-import { Api } from '@mui/icons-material';
-
-const request = axios.create({baseURL: API.BASE_URL});
 
 
 function App() {
-  const [tumbnails, setTumbnails] = useState<any | null>(null);
+  
+  const dispatch = useAppDispatch();
   useEffect(()=> {
 		const fetchApi = async () => {
 			try {
@@ -17,7 +18,7 @@ function App() {
 					'search',
 					{ 
 						params : {
-							part: 'snippet',
+							part: API.PART.SERACH,
 							maxResults: API.MAXRESULTS,
 							order: API.ORDER,
 							safeSearch: API.SAFE,
@@ -27,15 +28,15 @@ function App() {
 					}
 				);
 				
-				const searchItems : any = searchResponse.data.items.filter((item:any) => !!item.id.videoId).filter((item:any) => !!item.snippet.channelId);
+				const searchItems : Video[] = searchResponse.data.items.filter((item:Video) => !!item.id.videoId).filter((item:Video) => !!item.snippet?.channelId);
 
-				const videosId = searchItems.map((item:any) => item.id.videoId);
-				const channelsId = Array.from(new Set(searchItems.map((item:any) => item.snippet.channelId)))
+				const videosId = searchItems.map((item:Video) => item.id.videoId);
+				const channelsId = Array.from(new Set(searchItems.map((item:Video) => item.snippet?.channelId)))
 				
 				const videosResponse = await request.get('videos',
 					{ 
 						params : {
-							part: 'id,snippet,contentDetails,statistics,status,topicDetails',
+							part: API.PART.VIDEOS,
 							id: videosId.join(','),
 							key: API.KEY,
 						}
@@ -46,15 +47,15 @@ function App() {
 				const channelsResponse = await request.get('channels',
 					{ 
 						params : {
-						part: 'snippet',
+						part: API.PART.CHANNEL,
 						id: channelsId.join(','),
 						q:'react',
 						key:API.KEY,
 					}});
 				
-				const homeVideos = searchItems.map((itemSearch: any) => {
-					const videoInfo = videosResponse.data.items.find((itemVideos: any) => itemVideos.id === itemSearch.id.videoId);
-					const channel = channelsResponse.data.items.find((itemChannel: any) => itemChannel.id === itemSearch.snippet.channelId)
+				const homeVideos : Video[] = searchItems.map((itemSearch: Video) => {
+					const videoInfo = videosResponse.data.items.find((itemVideos: Video) => itemVideos.id === itemSearch.id.videoId);
+					const channel = channelsResponse.data.items.find((itemChannel: Channel) => itemChannel.id === itemSearch.snippet?.channelId)
 					return {
 						...videoInfo,
 						snippet: {...videoInfo.snippet, ...itemSearch.snippet},
@@ -62,6 +63,7 @@ function App() {
 					}
 				})
 				console.log(homeVideos);
+				dispatch(setVideos(homeVideos));
 			} catch (err) {
 				console.error(err)
 			}

@@ -1,7 +1,7 @@
 import { 
     useAppDispatch, 
     useAppSelector 
-} from './redux-hooks.js';
+} from './redux-hooks';
 
 export { 
     useAppDispatch, 
