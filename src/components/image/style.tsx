@@ -1,14 +1,17 @@
 import styled from "styled-components";
 
 interface Props {
-    width: number;
+    width: string;
     height: number;
+    borderRadius: string;
 }
 
 export const ImageWrapper = styled.div<Props>`
     position: relative;
-    width: ${(props) => `${props.width}px`};
+    width: ${(props) => `${props.width}`};
     height: ${(props) => `${props.height}px`};
+    border-radius: ${(props) => `${props.borderRadius}`};
+    overflow: hidden;
 `
 
 export const ImageContainer = styled.img`

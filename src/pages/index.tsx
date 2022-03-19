@@ -1,5 +1,6 @@
 import { Home } from "./home";
 import { Results } from "./reults";
+import { VideoPage } from "./video-page";
 import { Header } from "../components/header";
 
 import {
@@ -15,6 +16,7 @@ export const Navigation = () => {
             <Routes>
                 <Route path="/" element={<Home />}/>
                 <Route path="/results" element={<Results />}/>
+                <Route path="/video" element={<VideoPage />}/>
             </Routes>
         </Router>
     )

@@ -10,7 +10,7 @@ export const SidebarToggle = () => {
             <IconButton>
                 <Menu/>
             </IconButton>
-            <Image width={110} height={40} src={logo} alt="logo"/>
+            <Image width='110px' height={40} src={logo} alt="logo"/>
         </SidebarToggleContainer>
     )
 }

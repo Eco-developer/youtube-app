@@ -9,7 +9,7 @@ export interface Video {
     kind?: string,
     etag?: string,
     id?: any,
-    snippet?: Snippet,
+    snippet: Snippet,
     channel?: Channel,
     contentDetails?: ContentDetails,
     status?: Status,

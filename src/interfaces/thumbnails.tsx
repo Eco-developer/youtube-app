@@ -1,5 +1,5 @@
 export interface Thumbnails {
-    default?: ThumbnailsProps,
+    default: ThumbnailsProps,
     medium?: ThumbnailsProps,
     high?: ThumbnailsProps
 } 

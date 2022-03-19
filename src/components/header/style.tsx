@@ -9,7 +9,7 @@ export const HeaderContainer = styled.header`
     flex-direction: column;
     z-index: 3;
     border-bottom: 2px solid whitesmoke;
-    @media (min-width: 400px) {
+    @media (min-width: 460px) {
         height: 60px;
         flex-direction: row;
         justify-content: space-between;

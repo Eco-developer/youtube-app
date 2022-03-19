@@ -7,7 +7,6 @@ import { setVideos } from './features/videos/videosSlice';
 import { Video, Channel } from './interfaces/index';
 import './App.css';
 
-
 function App() {
   
   const dispatch = useAppDispatch();
@@ -19,10 +18,10 @@ function App() {
 					{ 
 						params : {
 							part: API.PART.SERACH,
-							maxResults: API.MAXRESULTS,
+							maxResults: "50",
 							order: API.ORDER,
 							safeSearch: API.SAFE,
-							q: '',
+							q: 'javascript',
 							key: API.KEY,
 						}
 					}
@@ -43,13 +42,11 @@ function App() {
 					}
 				);
 
-				
 				const channelsResponse = await request.get('channels',
 					{ 
 						params : {
 						part: API.PART.CHANNEL,
 						id: channelsId.join(','),
-						q:'react',
 						key:API.KEY,
 					}});
 				

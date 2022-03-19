@@ -5,7 +5,7 @@ export interface Snippet {
     channelId?: string,
     title?: string,
     description?: string,
-    thumbnails?: Thumbnails,
+    thumbnails: Thumbnails,
     channelTitle?: string,
     customUrl: string,
     tags?: string[],
