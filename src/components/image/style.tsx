@@ -11,6 +11,7 @@ export const ImageWrapper = styled.div<Props>`
     width: ${(props) => `${props.width}`};
     height: ${(props) => `${props.height}px`};
     border-radius: ${(props) => `${props.borderRadius}`};
+    cursor: pointer;
     overflow: hidden;
 `
 

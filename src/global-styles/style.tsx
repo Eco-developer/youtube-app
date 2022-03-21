@@ -3,8 +3,8 @@ import styled from "styled-components";
 export const PageContainer = styled.div`
     width: 100vw;
     height: 100vh;
-    background-color: #f0f0f0bd;
-    padding-top: 120px;
+    background-color: #f9f9f9;
+    padding-top: 120px !important;
     display: flex;
     overflow-y: scroll;
 	-ms-overflow-style: none; 
@@ -13,6 +13,6 @@ export const PageContainer = styled.div`
   		display: none;
 	}
     @media (min-width: 460px) {
-        padding-top: 60px;
+        padding-top: 60px !important;
     }
 `

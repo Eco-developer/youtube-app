@@ -6,6 +6,10 @@ import { ContentDetails } from "./content-details";
 import { Status } from "./status";
 import { Statistics } from "./statistics";
 import { TopicDetails } from "./topic-details";
+import { Comments } from "./comments";
+import { CommentSnippet } from "./comment-snippet";
+import { Comment } from "./comment";
+import { Replies } from "./replies";
 
 export type { 
     Video,
@@ -15,5 +19,9 @@ export type {
     ContentDetails,
     Status,
     Statistics,
-    TopicDetails 
+    TopicDetails,
+    Comments,
+    CommentSnippet,
+    Comment,
+    Replies,
 }

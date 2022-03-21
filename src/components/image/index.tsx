@@ -9,15 +9,17 @@ export interface ImageProps {
     borderRadius?: string;
     src: string; 
     alt: string;
+    onClick?: () => void,
 }
 
-export const Image = ({width, height, src, alt, borderRadius='0'}: ImageProps) => (
+export const Image = ({width, height, src, alt, borderRadius='0', onClick}: ImageProps) => (
     <ImageWrapper width={width} height={height} borderRadius={borderRadius}>
         <ImageContainer src={src} alt={alt} 
-        onError={({ currentTarget }) => {
+            onError={({ currentTarget }) => {
             currentTarget.onerror = null; 
             currentTarget.src=icon;
-        }}
+            }}
+            onClick={onClick}
         />
     </ImageWrapper>
 )

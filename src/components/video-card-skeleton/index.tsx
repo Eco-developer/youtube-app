@@ -1,6 +1,7 @@
 import { 
     Skeleton, 
-    Stack } from '@mui/material';
+    Stack 
+} from '@mui/material';
 import { CardSkeletonContainer } from './styled';
 
 export const VideoSkeleton = () => {

@@ -6,6 +6,7 @@ import { request } from './services/index';
 import { setVideos } from './features/videos/videosSlice';
 import { Video, Channel } from './interfaces/index';
 import './App.css';
+import { Api } from '@mui/icons-material';
 
 function App() {
   
@@ -18,10 +19,10 @@ function App() {
 					{ 
 						params : {
 							part: API.PART.SERACH,
-							maxResults: "50",
+							maxResults: API.MAXRESULTS.SERACH,
 							order: API.ORDER,
 							safeSearch: API.SAFE,
-							q: 'javascript',
+							q: 'software development',
 							key: API.KEY,
 						}
 					}
@@ -35,6 +36,7 @@ function App() {
 				const videosResponse = await request.get('videos',
 					{ 
 						params : {
+							maxResults: API.MAXRESULTS.VIDEOS,
 							part: API.PART.VIDEOS,
 							id: videosId.join(','),
 							key: API.KEY,
@@ -45,10 +47,13 @@ function App() {
 				const channelsResponse = await request.get('channels',
 					{ 
 						params : {
-						part: API.PART.CHANNEL,
-						id: channelsId.join(','),
-						key:API.KEY,
-					}});
+							maxResults: API.MAXRESULTS.CHANNEL,
+							part: API.PART.CHANNEL,
+							id: channelsId.join(','),
+							key:API.KEY,
+						}
+					}
+				);
 				
 				const homeVideos : Video[] = searchItems.map((itemSearch: Video) => {
 					const videoInfo = videosResponse.data.items.find((itemVideos: Video) => itemVideos.id === itemSearch.id.videoId);
@@ -59,7 +64,6 @@ function App() {
 						channel,
 					}
 				})
-				console.log(homeVideos);
 				dispatch(setVideos(homeVideos));
 			} catch (err) {
 				console.error(err)

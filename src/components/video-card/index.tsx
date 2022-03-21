@@ -7,17 +7,23 @@ import {
     VideoCardContainer,
     Text,
 } from "./style";
+import { useNavigate } from 'react-router-dom';
 import { Video } from "../../interfaces";
-import { logo } from "../../const/images";
 
 interface VideoCardProps {
     video: Video,
+    flexDirection?: 'row' | 'column',
+    width?: string | number
 }
 
-export const VideoCard = ({video}: VideoCardProps) => {
+export const VideoCard = ({video, flexDirection='column', width='100%'}: VideoCardProps) => {
+    const navigate = useNavigate();
+    const handleClick = () => {
+        navigate(`video?videoId=${video.id}`)
+    }
     return (
         <VideoCardContainer>
-            <Stack spacing={1} style={{maxWidth: "300px"}} width="100%">
+            <Stack spacing={1} style={{maxWidth: "300px"}} width={width} flexDirection={flexDirection} onClick={handleClick}>
                 <Image 
                         width='100%' 
                         height={160} 
@@ -25,15 +31,18 @@ export const VideoCard = ({video}: VideoCardProps) => {
                         alt="video-card"
                     />                   
                 <Stack width="100%" flexDirection='row'>
-                    <Image
-                        width='40px' 
-                        height={40} 
-                        borderRadius='50%'
-                        src={video.channel?.snippet.thumbnails.default.url || logo} 
-                        alt="channel-profile"
-                    />
+                    {video.channel? 
+                        <Image
+                            width='40px' 
+                            height={40} 
+                            borderRadius='50%'
+                            src={video.channel.snippet.thumbnails.default.url} 
+                            alt="channel-profile"
+                        />
+                    : null}
+                    
                     <Stack flex={1} flexDirection='column' marginLeft={1}>
-                        <Stack flex={1} marginBottom={1}>
+                        <Stack marginBottom={1}>
                             <TextTruncate
                                 line={2}
                                 element="h5"
@@ -43,7 +52,7 @@ export const VideoCard = ({video}: VideoCardProps) => {
                         </Stack>
                         <Stack flex={1}>
                             <Text>
-                                {video.channel?.snippet.title}
+                                {video.snippet.channelTitle}
                             </Text>
                             <Text>
                                 {numeral(video.statistics?.viewCount).format('0,0')} {moment(video.snippet.publishedAt, "YYYYMMDD").fromNow()}
