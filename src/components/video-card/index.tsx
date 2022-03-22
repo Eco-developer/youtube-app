@@ -23,7 +23,7 @@ export const VideoCard = ({video, flexDirection='column', width='100%'}: VideoCa
     }
     return (
         <VideoCardContainer>
-            <Stack spacing={1} style={{maxWidth: "300px"}} width={width} flexDirection={flexDirection} onClick={handleClick}>
+            <Stack spacing={1} style={{maxWidth: "400px"}} width={width} flexDirection={flexDirection} onClick={handleClick}>
                 <Image 
                         width='100%' 
                         height={160} 

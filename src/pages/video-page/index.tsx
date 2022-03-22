@@ -1,5 +1,6 @@
 import { VideoContainer } from '../../components/video-container';
 import { CommentsSection } from '../../components/comments-section';
+import { VideosSideContainer } from '../../components/videos-side-container';
 import { 
     VideoPageConatiner, 
     VideoMainSection,
@@ -19,6 +20,7 @@ import * as API from '../../const/youtube-api';
 export const VideoPage = () => {
     const [queries] = useSearchParams();
     const [video, setVideo] = useState<Video | null>(null);
+    const [videos, setVideos] = useState<Video[] | null>(null);
     const navigate = useNavigate();
     const videoId = queries.get('videoId');
     
@@ -55,34 +57,25 @@ export const VideoPage = () => {
                         signal: controller?.signal,
                     }
                 );
-    
-               /* const playlists = await request.get('playlists',
-                { 
-                    params : {
-                    part: 'id,snippet,status',
-                    channelId: videoResponse.data.items[0].snippet.channelId,
-                    maxResults: '50',
-                    key:API.KEY,
-                }});
-    
-                const playlistsItems = await request.get('playlistItems',
-                { 
-                    params : {
-                    part: 'id,snippet,status,contentDetails',
-                    playlistId: channelsResponse.data.items[0].contentDetails.relatedPlaylists.uploads,
-                    maxResults: '50',
-                    key:API.KEY,
-                }});
                 
-                console.log(playlists.data);
-                console.log(playlistsItems.data)*/
-    
+                const playlistsItems = await request.get('playlistItems',
+                    { 
+                        params : {
+                            part: 'id,snippet,status,contentDetails',
+                            playlistId: channelsResponse.data.items[0].contentDetails.relatedPlaylists.uploads,
+                            maxResults: '50',
+                            key:API.KEY,
+                        }
+                    }
+                );
+
                 const currentVideo: Video = {
                     ...videoResponse.data.items[0],
                     channel: channelsResponse.data.items[0]
                 }
     
                 setVideo(currentVideo);
+                setVideos(playlistsItems.data.items);
                 
             } catch (error) {
                 console.log(error);
@@ -103,7 +96,10 @@ export const VideoPage = () => {
                 />
             </VideoMainSection>
             <VideoSideSection>
-                
+                <VideosSideContainer 
+                    videoId={videoId} 
+                    videos={videos}
+                />
             </VideoSideSection>
         </VideoPageConatiner>
     )

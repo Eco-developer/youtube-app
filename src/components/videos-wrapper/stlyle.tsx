@@ -1,10 +1,15 @@
 import styled from "styled-components";
 
-export const VideosWrapperContainer = styled.main`
+interface Props {
+  display: string;
+}
+
+export const VideosWrapperContainer = styled.main<Props>`
     flex-grow: 1;
-    display: grid;
+    display: ${props => props.display};
     padding: 20px;
     gap: 20px;
+    flex-direction: column;
     grid-template-columns: repeat(1, minmax(0, 1fr));
     
     @media (min-width: 500px) {

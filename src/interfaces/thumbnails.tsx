@@ -1,10 +1,11 @@
 export interface Thumbnails {
     default: ThumbnailsProps,
     medium?: ThumbnailsProps,
-    high?: ThumbnailsProps
+    high?: ThumbnailsProps,
+    maxres?: ThumbnailsProps,
+    standard?: ThumbnailsProps,
 } 
-
-interface ThumbnailsProps { 
+ interface ThumbnailsProps { 
     url: string,
     width: number,
     height: number,

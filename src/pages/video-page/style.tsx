@@ -15,13 +15,13 @@ export const VideoMainSection = styled.main`
     flex-direction: column;
     align-items: center;
     @media(min-width: 1000px) {
-        width: 75%;
+        width: 70%;
     }
 `
 
 export const VideoSideSection = styled.aside`
     width: 100%;
     @media(min-width: 1000px) {
-        width: 25%;
+        width: 30%;
     }
 `

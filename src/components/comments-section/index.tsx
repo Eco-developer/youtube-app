@@ -3,10 +3,11 @@ import moment from 'moment';
 import { CommentContainer } from '../comment-container/index';
 import { 
     CommentsContainer, 
-    CommentsSectionContainer
-
+    CommentsSectionContainer,
+    MoreBtn
 } from './style';
 import { 
+    CircularProgress,
     MenuItem, 
     Select, 
     SelectChangeEvent, 
@@ -30,11 +31,10 @@ interface Props {
 
 export const CommentsSection = ({commentCount, videoId}: Props) => {
     const [comments, setComments] = useState<{items: Comments[], nextPageToken: string | undefined | null} | null>(null);
-    const [sortBy, setSort] = useState<string>('relevance');
-    const handleChange = (event: SelectChangeEvent<string>) => {
-        setSort(event.target.value)
-    }
-    console.log(comments)
+    const [sortBy, setSort] = useState<string>(API.ORDER);
+    const [pendingMore, setPendingMore] = useState<boolean>(false);
+    const [pendingSort, setPendingSort] = useState<boolean>(false);
+
     useEffect(() => {
         if (!videoId) {
             return;
@@ -50,7 +50,7 @@ export const CommentsSection = ({commentCount, videoId}: Props) => {
                                 maxResults: API.MAXRESULTS.COMMENTS,
                                 part: API.PART.COMMENTS,
                                 videoId,
-                                order: API.ORDER,
+                                order: sortBy,
                                 textFormat: API.TEXTFORMAT,
                                 key: API.KEY,
     
@@ -71,10 +71,40 @@ export const CommentsSection = ({commentCount, videoId}: Props) => {
         return () => controller?.abort()
     }, [videoId])
 
+    const handleChange = async (event: SelectChangeEvent<string>) => {
+        const { target: { value } } = event;
+        setSort(value)
+        setPendingSort(true);
+        console.log(value)
+        try {
+                
+            const commetsRespose = await request.get('commentThreads',
+                    { 
+                        params : {
+                            maxResults: API.MAXRESULTS.COMMENTS,
+                            part: API.PART.COMMENTS,
+                            videoId,
+                            order: value,
+                            textFormat: API.TEXTFORMAT,
+                            key: API.KEY,
+
+                        }
+                    }
+                )
+            
+            setComments({items: commetsRespose.data.items, nextPageToken: commetsRespose.data.nextPageToken});
+            
+        } catch (error) {
+            console.log(error);
+        }
+        setPendingSort(false);
+    }
+
     const fethMoreComments = async () => {
         if (!comments?.nextPageToken) {
             return;
         }
+        setPendingMore(true);
         try {
             const commetsRespose = await request.get('commentThreads',
                     { 
@@ -94,7 +124,7 @@ export const CommentsSection = ({commentCount, videoId}: Props) => {
         } catch (error) {
             console.log(error)
         }
-
+        setPendingMore(false);
     } 
     return (
         <CommentsSectionContainer>
@@ -108,11 +138,13 @@ export const CommentsSection = ({commentCount, videoId}: Props) => {
                             
                         </Stack>
                         <Stack flexDirection='row' alignItems='center'>
-                            <Stack display={{xs: 'none', sm: 'flex'}} flexDirection='row' marginRight={1}>
+                            <Stack flexDirection='row' marginRight={1}>
                                 <Stack marginRight={1}>
-                                    <Sort/>
+                                    {pendingSort ? 
+                                        <CircularProgress size={20}/>
+                                    : <Sort/>}
                                 </Stack>
-                                <Stack>
+                                <Stack display={{xs: 'none', sm: 'flex'}}>
                                     <p>
                                         Sort by
                                     </p>
@@ -126,13 +158,13 @@ export const CommentsSection = ({commentCount, videoId}: Props) => {
                                     onChange={handleChange}
                                 >
                                     <MenuItem value='relevance'>Relevance</MenuItem>
-                                    <MenuItem value='newest'>Newest</MenuItem>
+                                    <MenuItem value='time'>Newest</MenuItem>
                                 </Select>
                             </Stack>
                         </Stack>
                     </Stack>
                     <CommentsContainer>
-                        {comments.items.slice(0,5).map((comment: Comments) =>(
+                        {comments.items.map((comment: Comments) =>(
                             <CommentContainer
                                 key={uuid()}
                                 authorProfileImageUrl={comment.snippet.topLevelComment.snippet.authorProfileImageUrl}
@@ -145,8 +177,12 @@ export const CommentsSection = ({commentCount, videoId}: Props) => {
                         ))}
                     </CommentsContainer>
                     {comments.nextPageToken ?
-                        <Stack onClick={fethMoreComments}>
-                            Load More Commets 
+                        <Stack justifyContent="center" alignItems="center">
+                            <MoreBtn onClick={fethMoreComments}>
+                                { pendingMore ? 
+                                    <CircularProgress size={20}/>
+                                    : "Load More Commets" }
+                            </MoreBtn>
                         </Stack>
                     : null}
                 </>)

@@ -5,15 +5,16 @@ import { v4 as uuid } from 'uuid';
 import { Video } from '../../interfaces';
 
 
-interface VideosProps {
-   videos: Video[] | null
+interface Props {
+   videos: Video[] | null,
+   display?: string;
 }
 
-export const VideosWrapper = ({videos}: VideosProps) =>{
+export const VideosWrapper = ({videos, display='grid'}: Props) =>{
     const skeletons = new Array(40).fill(null);
     console.log(skeletons)
     return (
-        <VideosWrapperContainer>
+        <VideosWrapperContainer display={display}>
             {videos?.length ?
                 videos.map((video: Video) => (
                     <VideoCard video={video} key={uuid()}/>
