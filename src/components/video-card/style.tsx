@@ -13,5 +13,6 @@ export const Text = styled.p`
     font-family: 'monserrat';
     font-size: 13px;
     margin-bottom: 3px;
+    margin-right: 4px;
     color: #676565;
 `

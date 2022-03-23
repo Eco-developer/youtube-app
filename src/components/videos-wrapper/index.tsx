@@ -8,10 +8,11 @@ import { Video } from '../../interfaces';
 interface Props {
    videos: Video[] | null,
    display?: string;
+   skeletonAmount?: number
 }
 
-export const VideosWrapper = ({videos, display='grid'}: Props) =>{
-    const skeletons = new Array(40).fill(null);
+export const VideosWrapper = ({videos, display='grid', skeletonAmount=50}: Props) =>{
+    const skeletons = new Array(skeletonAmount).fill(null);
     console.log(skeletons)
     return (
         <VideosWrapperContainer display={display}>

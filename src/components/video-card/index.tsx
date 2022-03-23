@@ -7,7 +7,11 @@ import {
     VideoCardContainer,
     Text,
 } from "./style";
-import { useNavigate } from 'react-router-dom';
+import { 
+    useNavigate, 
+    useLocation, 
+    useSearchParams 
+} from 'react-router-dom';
 import { Video } from "../../interfaces";
 
 interface VideoCardProps {
@@ -17,9 +21,17 @@ interface VideoCardProps {
 }
 
 export const VideoCard = ({video, flexDirection='column', width='100%'}: VideoCardProps) => {
+    const [queries, setQueries] = useSearchParams();
     const navigate = useNavigate();
+    const { pathname } = useLocation();
+    
     const handleClick = () => {
-        navigate(`video?videoId=${video.id}`)
+        console.log(video)
+        if (!pathname.includes('video')) {
+            navigate(`video?videoId=${video.contentDetails?.videoId || video.id}`)
+            return;
+        }
+        setQueries({videoId: video.contentDetails?.videoId || video.id})
     }
     return (
         <VideoCardContainer>
@@ -54,9 +66,17 @@ export const VideoCard = ({video, flexDirection='column', width='100%'}: VideoCa
                             <Text>
                                 {video.snippet.channelTitle}
                             </Text>
-                            <Text>
-                                {numeral(video.statistics?.viewCount).format('0,0')} {moment(video.snippet.publishedAt, "YYYYMMDD").fromNow()}
-                            </Text>
+                            <Stack flexDirection='row'>
+                                {video.statistics?.viewCount ? 
+                                    <Text>
+                                        {numeral(video.statistics?.viewCount).format('0,0')} 
+                                    </Text>
+                                : null} 
+                                <Text>
+                                    {moment(video.snippet.publishedAt, "YYYYMMDD").fromNow()}
+                                </Text>
+                            </Stack>
+                           
                         </Stack>
                     </Stack>
                 </Stack>

@@ -14,6 +14,7 @@ import {
 import { request } from '../../services/index';
 import {
     Video, 
+    Comments 
 } from '../../interfaces/index';
 import * as API from '../../const/youtube-api';
 
@@ -21,6 +22,7 @@ export const VideoPage = () => {
     const [queries] = useSearchParams();
     const [video, setVideo] = useState<Video | null>(null);
     const [videos, setVideos] = useState<Video[] | null>(null);
+    const [comments, setComments] = useState<{items: Comments[], nextPageToken: string | undefined | null} | null>(null);
     const navigate = useNavigate();
     const videoId = queries.get('videoId');
     
@@ -58,6 +60,23 @@ export const VideoPage = () => {
                     }
                 );
                 
+                const commetsRespose = await request.get('commentThreads',
+                    { 
+                        params : {
+                            maxResults: API.MAXRESULTS.COMMENTS,
+                            part: API.PART.COMMENTS,
+                            videoId,
+                            order: API.ORDER,
+                            textFormat: API.TEXTFORMAT,
+                            key: API.KEY,
+
+                        },
+                        signal: controller?.signal
+                    }
+                )
+        
+                setComments({items: commetsRespose.data.items, nextPageToken: commetsRespose.data.nextPageToken});
+
                 const playlistsItems = await request.get('playlistItems',
                     { 
                         params : {
@@ -73,8 +92,9 @@ export const VideoPage = () => {
                     ...videoResponse.data.items[0],
                     channel: channelsResponse.data.items[0]
                 }
-    
+                
                 setVideo(currentVideo);
+                setComments({items: commetsRespose.data.items, nextPageToken: commetsRespose.data.nextPageToken});
                 setVideos(playlistsItems.data.items);
                 
             } catch (error) {
@@ -82,7 +102,9 @@ export const VideoPage = () => {
             }
             controller = null;
         }
-
+        setVideo(null);
+        setComments(null);
+        setVideos(null);
         fetchApi();
         return () => controller?.abort()
     }, [videoId])
@@ -93,6 +115,9 @@ export const VideoPage = () => {
                 <CommentsSection 
                     commentCount={video?.statistics?.commentCount}
                     videoId={videoId}
+                    comments={comments?.items}
+                    nextPageToken={comments?.nextPageToken}
+                    setComments={setComments}
                 />
             </VideoMainSection>
             <VideoSideSection>

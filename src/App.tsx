@@ -22,7 +22,7 @@ function App() {
 							maxResults: API.MAXRESULTS.SERACH,
 							order: API.ORDER,
 							safeSearch: API.SAFE,
-							q: 'software development',
+							q: 'reactjs',
 							key: API.KEY,
 						}
 					}

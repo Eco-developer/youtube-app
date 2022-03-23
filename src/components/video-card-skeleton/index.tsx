@@ -7,7 +7,7 @@ import { CardSkeletonContainer } from './styled';
 export const VideoSkeleton = () => {
     return (
         <CardSkeletonContainer>
-            <Stack spacing={1} style={{maxWidth: "300px"}} width="100%">
+            <Stack spacing={1} style={{maxWidth: "400px"}} width="100%">
                 <Skeleton 
                     animation="wave" 
                     variant="rectangular" 

@@ -5,5 +5,7 @@ export interface ContentDetails {
     caption: string,
     licensedContent: boolean,
     contentRating: any,
-    projection: string
+    projection: string,
+    videoId?: string,
+    videoPublishedAt?: Date,
 }

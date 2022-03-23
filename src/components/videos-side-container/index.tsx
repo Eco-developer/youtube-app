@@ -15,7 +15,7 @@ export const VideosSideContainer = ({videoId, videos}: Props) => {
     console.log(videos)
     return (
         <VideosSideWrapper>
-            <VideosWrapper videos={videos} display='flex'/>
+            <VideosWrapper videos={videos} display='flex' skeletonAmount={5}/>
         </VideosSideWrapper>
     )
 }
