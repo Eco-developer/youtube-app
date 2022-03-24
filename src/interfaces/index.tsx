@@ -10,6 +10,7 @@ import { Comments } from "./comments";
 import { CommentSnippet } from "./comment-snippet";
 import { Comment } from "./comment";
 import { Replies } from "./replies";
+import { Category } from "./category";
 
 export type { 
     Video,
@@ -24,4 +25,5 @@ export type {
     CommentSnippet,
     Comment,
     Replies,
+    Category,
 }

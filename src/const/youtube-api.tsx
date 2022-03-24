@@ -6,6 +6,7 @@ export const PART = {
     COMMENTS: 'id,replies,snippet',
     PLAYLIST: 'id,snippet,status',
     PLAYLISTITEMS: 'id,snippet,status,contentDetail',
+    CATEGORIES: 'id,snippet',
 };
 export const MAXRESULTS = {
     SERACH: '50',
@@ -15,6 +16,9 @@ export const MAXRESULTS = {
     PLAYLIST: '50',
     PLAYLISTITEMS: '50',
 };
+
+export const CHART: string= 'mostPopular';
+export const REGIONCODE = 'US';
 export const ORDER: string = 'relevance';
 export const TEXTFORMAT: string = 'plainText';
 export const SAFE: string = 'strict';

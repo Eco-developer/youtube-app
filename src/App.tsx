@@ -14,36 +14,34 @@ function App() {
   useEffect(()=> {
 		const fetchApi = async () => {
 			try {
-				const searchResponse = await request.get(
-					'search',
-					{ 
-						params : {
-							part: API.PART.SERACH,
-							maxResults: API.MAXRESULTS.SERACH,
-							order: API.ORDER,
-							safeSearch: API.SAFE,
-							q: 'reactjs',
-							key: API.KEY,
-						}
-					}
-				);
-				
-				const searchItems : Video[] = searchResponse.data.items.filter((item:Video) => !!item.id.videoId).filter((item:Video) => !!item.snippet?.channelId);
-
-				const videosId = searchItems.map((item:Video) => item.id.videoId);
-				const channelsId = Array.from(new Set(searchItems.map((item:Video) => item.snippet?.channelId)))
 				
 				const videosResponse = await request.get('videos',
 					{ 
 						params : {
 							maxResults: API.MAXRESULTS.VIDEOS,
 							part: API.PART.VIDEOS,
-							id: videosId.join(','),
+							chart:'mostPopular',
 							key: API.KEY,
 						}
 					}
 				);
+				console.log(videosResponse.data);
 
+				
+
+				const categoryResponse = await request.get('videoCategories',
+					{
+						params : {
+							regionCode: API.REGIONCODE,
+							maxResults: API.PART.VIDEOS,
+							part: API.PART.CATEGORIES,
+							key: API.KEY,
+						}
+					}
+				)
+				console.log(categoryResponse.data.items.filter((item:any) => item.snippet.assignable));
+				const videosItems : Video[] = videosResponse.data.items
+				const channelsId = Array.from(new Set(videosItems.map((item:Video) => item.snippet?.channelId)))
 				const channelsResponse = await request.get('channels',
 					{ 
 						params : {
@@ -51,16 +49,16 @@ function App() {
 							part: API.PART.CHANNEL,
 							id: channelsId.join(','),
 							key:API.KEY,
+							
 						}
 					}
 				);
 				
-				const homeVideos : Video[] = searchItems.map((itemSearch: Video) => {
-					const videoInfo = videosResponse.data.items.find((itemVideos: Video) => itemVideos.id === itemSearch.id.videoId);
-					const channel = channelsResponse.data.items.find((itemChannel: Channel) => itemChannel.id === itemSearch.snippet?.channelId)
+				const homeVideos : Video[] = videosItems.map((itemVideo: Video) => {
+					
+					const channel = channelsResponse.data.items.find((itemChannel: Channel) => itemChannel.id === itemVideo.snippet?.channelId)
 					return {
-						...videoInfo,
-						snippet: {...videoInfo.snippet, ...itemSearch.snippet},
+						...itemVideo,
 						channel,
 					}
 				})
