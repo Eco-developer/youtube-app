@@ -4,9 +4,13 @@ import * as API from './const/youtube-api';
 import { useAppDispatch } from './hooks/index';
 import { request } from './services/index';
 import { setVideos } from './features/videos/videosSlice';
-import { Video, Channel } from './interfaces/index';
+import { setCategories } from './features/catergories/categoriesSlice';
+import { 
+	Video, 
+	Channel,
+	Category
+} from './interfaces/index';
 import './App.css';
-import { Api } from '@mui/icons-material';
 
 function App() {
   
@@ -25,9 +29,7 @@ function App() {
 						}
 					}
 				);
-				console.log(videosResponse.data);
-
-				
+				const videosItems : Video[] = videosResponse.data.items
 
 				const categoryResponse = await request.get('videoCategories',
 					{
@@ -39,9 +41,9 @@ function App() {
 						}
 					}
 				)
-				console.log(categoryResponse.data.items.filter((item:any) => item.snippet.assignable));
-				const videosItems : Video[] = videosResponse.data.items
-				const channelsId = Array.from(new Set(videosItems.map((item:Video) => item.snippet?.channelId)))
+				const categories : Category[] = categoryResponse.data.items.filter((item:any) => item.snippet.assignable);
+
+				const channelsId : (string | undefined)[] = Array.from(new Set(videosItems.map((item:Video) => item.snippet?.channelId)))
 				const channelsResponse = await request.get('channels',
 					{ 
 						params : {
@@ -63,6 +65,7 @@ function App() {
 					}
 				})
 				dispatch(setVideos(homeVideos));
+				dispatch(setCategories(categories));
 			} catch (err) {
 				console.error(err)
 			}

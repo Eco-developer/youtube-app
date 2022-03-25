@@ -94,6 +94,7 @@ export const VideoPage = () => {
                 }
                 
                 setVideo(currentVideo);
+                console.log(currentVideo);
                 setComments({items: commetsRespose.data.items, nextPageToken: commetsRespose.data.nextPageToken});
                 setVideos(playlistsItems.data.items);
                 

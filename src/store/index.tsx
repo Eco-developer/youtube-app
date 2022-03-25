@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
-import  videoReducer  from '../features/videos/videosSlice';
+import videosReducer  from '../features/videos/videosSlice';
+import categoriesReducer from '../features/catergories/categoriesSlice';
+import sidebarReducer from '../features/sidebarSlice/sidebarSlice';
 
 export const store = configureStore({
   reducer: {
-    videos: videoReducer,
+    videos: videosReducer,
+    categories: categoriesReducer,
+    sidebar: sidebarReducer,
   },
 })
 
