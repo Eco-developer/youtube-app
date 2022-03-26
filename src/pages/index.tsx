@@ -1,8 +1,11 @@
 import { Home } from "./home";
-import { Results } from "./reults";
+import { ResultsPage } from "./reults";
 import { VideoPage } from "./video-page";
+import { CategoryPage } from "./category";
+import { ChannelPage } from "./channel";
 import { Header } from "../components/header";
 import { Sidebar } from "../components/sidebar";
+import * as ROUTES from "../const/routes";
 
 import {
     BrowserRouter as Router,
@@ -16,9 +19,12 @@ export const Navigation = () => {
             <Header/>
             <Sidebar/>
             <Routes>
-                <Route path="/" element={<Home />}/>
-                <Route path="/results" element={<Results />}/>
-                <Route path="/video" element={<VideoPage />}/>
+                <Route path={ROUTES.HOME} element={<Home />}/>
+                <Route path={ROUTES.RESULT} element={<ResultsPage />}/>
+                <Route path={ROUTES.VIDEO} element={<VideoPage />}/>
+                <Route path={ROUTES.CATEGORY} element={<CategoryPage />}/>
+                <Route path={ROUTES.CHANNEL} element={<ChannelPage />}/>
+                <Route path="*" element={<Home />}/>
             </Routes>
         </Router>
     )

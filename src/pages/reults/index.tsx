@@ -1,7 +1,9 @@
+import { PageContainer } from "../../global-styles/style";
 
-
-export const Results = () => {
+export const ResultsPage = () => {
   return (
-    <div>index</div>
+    <PageContainer>
+          Results
+       </PageContainer>
   )
 }

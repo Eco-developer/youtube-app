@@ -48,13 +48,23 @@ export const CommentContainer = ({authorProfileImageUrl, authorDisplayName, publ
                 />
             </Stack>
             <Stack flexDirection='column'>
-                <Stack>
-                    <TextTruncate
-                        line={1}
-                        element="h5"
-                        truncateText="…"
-                        text={`${authorDisplayName} ${moment(publishedAt, "YYYYMMDD").fromNow()}`}
-                    /> 
+                <Stack flexDirection='row' alignItems='center'>
+                    <Stack marginRight={1}>
+                        <TextTruncate
+                            line={1}
+                            element="h5"
+                            truncateText="…"
+                            text={`${authorDisplayName}`}
+                        />  
+                    </Stack>
+                    <Stack>
+                        <TextTruncate
+                            line={1}
+                            element="p"
+                            truncateText="…"
+                            text={moment(publishedAt, "YYYYMMDD").fromNow()}
+                        /> 
+                    </Stack>
                 </Stack>
                 <Stack>
                     <TextTruncate
