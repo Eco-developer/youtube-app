@@ -6,7 +6,6 @@ import { selectvideos } from "../../features/videos/videosSlice";
 
 export const Home = () => {
     const videos = useAppSelector(selectvideos);
-    console.log(videos);
     return (
        <PageContainer>
            <VideosWrapper videos={videos}/>

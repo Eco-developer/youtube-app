@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Stack } from "@mui/material";
 
 export const MoreBtn = styled.span`
     text-transform: none;
@@ -43,4 +44,13 @@ export const RepliesBtn = styled.span`
         color: rgb(25, 118, 210); 
         margin-right: 5px;
     }  
+`
+
+export const DisplayName = styled(Stack)`
+    p {
+        word-break: break-word;
+    }
+    h5 {
+        word-break: break-word;
+    }
 `

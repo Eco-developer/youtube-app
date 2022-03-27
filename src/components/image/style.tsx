@@ -4,6 +4,10 @@ interface Props {
     width: string;
     height: number;
     borderRadius: string;
+    objectFit: string;
+    objectPosition: string;
+    heightMid: number; 
+    heightHigh: number;
 }
 
 export const ImageWrapper = styled.div<Props>`
@@ -13,6 +17,17 @@ export const ImageWrapper = styled.div<Props>`
     border-radius: ${(props) => `${props.borderRadius}`};
     cursor: pointer;
     overflow: hidden;
+    @media (min-width: 500px) {
+            height: ${(props) => `${props.heightMid}px`}
+        }
+    @media (min-width: 900px) {
+        height: ${(props) => `${props.heightHigh}px`}
+    }
+    img {
+        object-fit: ${(props) => `${props.objectFit}`};
+        object-position: ${(props) => `${props.objectPosition}`};
+        
+    }
 `
 
 export const ImageContainer = styled.img`
@@ -23,5 +38,4 @@ export const ImageContainer = styled.img`
     bottom: 0;
     right: 0;
     left: 0;
-    object-fit: cover;
 `

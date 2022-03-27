@@ -4,7 +4,8 @@ import { Image } from "../image";
 import { Stack } from "@mui/material";
 import { 
     MoreBtn, 
-    RepliesBtn
+    RepliesBtn,
+    DisplayName
 } from "./style";
 import { 
     ThumbDown, 
@@ -48,25 +49,15 @@ export const CommentContainer = ({authorProfileImageUrl, authorDisplayName, publ
                 />
             </Stack>
             <Stack flexDirection='column'>
-                <Stack flexDirection='row' alignItems='center'>
-                    <Stack marginRight={1}>
-                        <TextTruncate
-                            line={1}
-                            element="h5"
-                            truncateText="…"
-                            text={`${authorDisplayName}`}
-                        />  
-                    </Stack>
-                    <Stack>
-                        <TextTruncate
-                            line={1}
-                            element="p"
-                            truncateText="…"
-                            text={moment(publishedAt, "YYYYMMDD").fromNow()}
-                        /> 
-                    </Stack>
-                </Stack>
-                <Stack>
+                <DisplayName>
+                    <TextTruncate
+                        line={1}
+                        element="h5"
+                        truncateText="…"
+                        text={`${authorDisplayName} * ${moment(publishedAt, "YYYYMMDD").fromNow()}`}
+                    />                  
+                </DisplayName>
+                <DisplayName>
                     <TextTruncate
                         line={more ? 50 : 5}
                         element="p"
@@ -74,9 +65,7 @@ export const CommentContainer = ({authorProfileImageUrl, authorDisplayName, publ
                         text={textDisplay}
                         textTruncateChild={<MoreBtn onClick={handleMore}>read more</MoreBtn>}
                     /> 
-                    
-                    
-                </Stack>
+                </DisplayName>
                 <Stack flexDirection='row' alignItems="center" marginBottom={1}>
                     <Stack marginRight={1}>
                         <ThumbUp color='primary' fontSize='small'/>

@@ -5,10 +5,10 @@ import {
 
 export const VideoInfoSkeleton = () => (
     <Stack flexDirection='column' width="100%" spacing={1} marginTop={1} borderBottom={1} paddingBottom={1} borderColor='#e5e5e5'>
-        <Stack>
-            <Skeleton animation="wave" />
+        <Stack maxWidth={300}>
+            <Skeleton animation="wave"/>
         </Stack>
-        <Stack borderBottom={1} paddingBottom={1} paddingTop={1} borderColor='#e5e5e5'>
+        <Stack borderBottom={1} paddingBottom={1} paddingTop={1} borderColor='#e5e5e5' maxWidth={400}>
             <Skeleton animation="wave" />
         </Stack>
         <Stack flexDirection='row' spacing={1} alignItems='flex-start'>

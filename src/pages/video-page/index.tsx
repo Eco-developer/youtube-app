@@ -21,12 +21,11 @@ import * as API from '../../const/youtube-api';
 export const VideoPage = () => {
     const [queries] = useSearchParams();
     const [video, setVideo] = useState<Video | null>(null);
-    const [videos, setVideos] = useState<Video[] | null>(null);
+    const [videos, setVideos] = useState<{items: Video[], nextPageToken: string | undefined | null, playlistId: string | undefined | null} | null>(null);
     const [comments, setComments] = useState<{items: Comments[], nextPageToken: string | undefined | null} | null>(null);
     const navigate = useNavigate();
     const videoId = queries.get('videoId');
     
-    console.log(videoId);
 
     useEffect(() => {
         if (!videoId) {
@@ -60,6 +59,21 @@ export const VideoPage = () => {
                     }
                 );
                 
+                  /*  const t = await request.get('channels',
+                    { 
+                        params : {
+                            maxResults: API.MAXRESULTS.CHANNEL,
+                            part: API.PART.CHANNEL,
+                            id: 'UCBR8-60-B28hp2BmDPdntcQ',
+                            key:API.KEY,
+                            
+                        },
+                        signal: controller?.signal,
+                    }
+                );
+
+                console.log(t.data);*/
+                    
                 const commetsRespose = await request.get('commentThreads',
                     { 
                         params : {
@@ -75,7 +89,18 @@ export const VideoPage = () => {
                     }
                 )
         
-                setComments({items: commetsRespose.data.items, nextPageToken: commetsRespose.data.nextPageToken});
+
+              /*  const playlistResponse = await request.get('playlists',
+                    { 
+                        params : {
+                            part: 'id,snippet,status',
+                            id: videoResponse.data.items[0].id,
+                            maxResults: '50',
+                            key:API.KEY,
+                        }
+                    }
+                )
+                console.log(playlistResponse.data);*/
 
                 const playlistsItems = await request.get('playlistItems',
                     { 
@@ -94,9 +119,8 @@ export const VideoPage = () => {
                 }
                 
                 setVideo(currentVideo);
-                console.log(currentVideo);
                 setComments({items: commetsRespose.data.items, nextPageToken: commetsRespose.data.nextPageToken});
-                setVideos(playlistsItems.data.items);
+                setVideos({items: playlistsItems.data.items, nextPageToken: playlistsItems.data.nextPageToken, playlistId: channelsResponse.data.items[0].contentDetails.relatedPlaylists.uploads});
                 
             } catch (error) {
                 console.log(error);
@@ -124,7 +148,10 @@ export const VideoPage = () => {
             <VideoSideSection>
                 <VideosSideContainer 
                     videoId={videoId} 
-                    videos={videos}
+                    videos={videos?.items || null}
+                    nextPageToken={videos?.nextPageToken}
+                    setVideos={setVideos}
+                    playlistId={videos?.playlistId || null}
                 />
             </VideoSideSection>
         </VideoPageConatiner>

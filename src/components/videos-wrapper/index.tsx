@@ -3,6 +3,7 @@ import { VideoCard } from '../video-card';
 import { VideosWrapperContainer } from './stlyle';
 import { v4 as uuid } from 'uuid';
 import { Video } from '../../interfaces';
+import { memo  } from 'react';
 
 
 interface Props {
@@ -11,9 +12,8 @@ interface Props {
    skeletonAmount?: number
 }
 
-export const VideosWrapper = ({videos, display='grid', skeletonAmount=50}: Props) =>{
+const VideosWrapperBase = ({videos, display='grid', skeletonAmount=50}: Props) =>{
     const skeletons = new Array(skeletonAmount).fill(null);
-    console.log(skeletons)
     return (
         <VideosWrapperContainer display={display}>
             {videos?.length ?
@@ -27,3 +27,5 @@ export const VideosWrapper = ({videos, display='grid', skeletonAmount=50}: Props
         </VideosWrapperContainer>
     )
 }
+
+export const VideosWrapper = memo(VideosWrapperBase);

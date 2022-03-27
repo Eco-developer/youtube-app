@@ -24,7 +24,9 @@ export const Sidebar = () => {
     const dispatch = useAppDispatch();
     const handleShow = () => {
         dispatch(setShowSidebar(false));
+
     }
+    console.log(categories)
     return (
         <SidebarContainer show={show}>
             <SidebarMain show={show}>
@@ -37,6 +39,7 @@ export const Sidebar = () => {
                                     key={uuid()}
                                     id={category.id}
                                     title={category.snippet.title}
+
                                 />
                             ))}
                         </CategoriesInnerContainer>

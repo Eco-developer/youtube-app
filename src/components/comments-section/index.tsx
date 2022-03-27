@@ -39,7 +39,6 @@ export const CommentsSection = ({commentCount, videoId, nextPageToken, comments,
         const { target: { value } } = event;
         setSort(value)
         setPendingSort(true);
-        console.log(value)
         try {
                 
             const commetsRespose = await request.get('commentThreads',
@@ -83,7 +82,6 @@ export const CommentsSection = ({commentCount, videoId, nextPageToken, comments,
                         },
                     }
                 )
-            console.log(commetsRespose.data)
             setComments((prevState:{items: Comments[], nextPageToken: string | undefined | null} | null) => ({items: [...(prevState ? prevState.items : []), ...commetsRespose.data.items], nextPageToken: commetsRespose.data.nextPageToken || null}))
         } catch (error) {
             console.log(error)

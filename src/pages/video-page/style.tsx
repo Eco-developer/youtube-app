@@ -21,6 +21,9 @@ export const VideoMainSection = styled.main`
 
 export const VideoSideSection = styled.aside`
     width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
     @media(min-width: 1000px) {
         width: 30%;
     }

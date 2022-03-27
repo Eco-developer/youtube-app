@@ -26,7 +26,6 @@ export const VideoCard = ({video, flexDirection='column', width='100%'}: VideoCa
     const { pathname } = useLocation();
     
     const handleClick = () => {
-        console.log(video)
         if (!pathname.includes('video')) {
             navigate(`video?videoId=${video.contentDetails?.videoId || video.id}`)
             return;
