@@ -58,21 +58,6 @@ export const VideoPage = () => {
                         signal: controller?.signal,
                     }
                 );
-                
-                  /*  const t = await request.get('channels',
-                    { 
-                        params : {
-                            maxResults: API.MAXRESULTS.CHANNEL,
-                            part: API.PART.CHANNEL,
-                            id: 'UCBR8-60-B28hp2BmDPdntcQ',
-                            key:API.KEY,
-                            
-                        },
-                        signal: controller?.signal,
-                    }
-                );
-
-                console.log(t.data);*/
                     
                 const commetsRespose = await request.get('commentThreads',
                     { 

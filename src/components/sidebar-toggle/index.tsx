@@ -8,7 +8,6 @@ import {
 } from 'react-router-dom';
 import { 
     setShowSidebar, 
-    setCategoryId,
     selectShow
 } from '../../features/sidebarSlice/sidebarSlice';
 import { logo } from '../../const/images';
@@ -34,7 +33,6 @@ export const SidebarToggle = ({menu = true}: Props) => {
         if (!menu) {
             dispatch(setShowSidebar(!show));
         }
-        dispatch(setCategoryId('none'));
     }   
 
     const handleShow = () => {

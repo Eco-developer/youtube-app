@@ -13,6 +13,7 @@ import {
     useSearchParams 
 } from 'react-router-dom';
 import { Video } from "../../interfaces";
+import { VIDEO } from '../../const/routes';
 
 interface VideoCardProps {
     video: Video,
@@ -27,7 +28,7 @@ export const VideoCard = ({video, flexDirection='column', width='100%'}: VideoCa
     
     const handleClick = () => {
         if (!pathname.includes('video')) {
-            navigate(`video?videoId=${video.contentDetails?.videoId || video.id}`)
+            navigate(`${VIDEO}?videoId=${video.contentDetails?.videoId || video.id}`)
             return;
         }
         setQueries({videoId: video.contentDetails?.videoId || video.id})

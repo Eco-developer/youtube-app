@@ -4,13 +4,11 @@ import type { RootState } from '../../store/index.js';
 // Define a type for the slice state
 interface SidebarInterface {
     show: boolean,
-    categoryId: string,
 }
 
 // Define the initial state using that type
 const initialState: SidebarInterface = {
     show: false,
-    categoryId: 'none',
 }
 
 export const sidebarSlice = createSlice({
@@ -22,16 +20,12 @@ export const sidebarSlice = createSlice({
     setShowSidebar: (state, action: PayloadAction<boolean>) => {
         state.show = action.payload;
     },
-    setCategoryId: (state, action: PayloadAction<string>) => {
-        state.categoryId = action.payload;
-    }
   },
 })
 
-export const { setShowSidebar, setCategoryId } = sidebarSlice.actions;
+export const { setShowSidebar } = sidebarSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectShow = (state: RootState) => state.sidebar.show;
-export const selectId = (state: RootState) => state.sidebar.categoryId;
 
 export default sidebarSlice.reducer;

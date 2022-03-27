@@ -1,12 +1,8 @@
+import { CategoryMain } from '../../components/category-main/index';
+import { Footer } from '../../components/footer/index';
 import { NotFound } from "../../components/not-found/index";
-import { VideosWrapper } from '../../components/videos-wrapper/index';
-import { CarouselComponent } from "../../components/carousel/index";
 import { PageContainer } from "../../global-styles/style";
-import { 
-    CategoryTittle, 
-    CategoryContainer, 
-    CarouselSkeleton
-} from "./style";
+import { CategoryPageContainer } from "./style";
 import { 
     useNavigate, 
     useSearchParams 
@@ -24,6 +20,7 @@ import { Stack, Skeleton } from "@mui/material";
 
 interface SetVideos {
     items: Video[] | null, 
+    nextPageToken?: string | null | undefined, 
 }
 
 export const CategoryPage = () => {
@@ -67,7 +64,6 @@ export const CategoryPage = () => {
                             signal: controller?.signal
                         }
                     );
-                console.log(videosResponse.data)
                 if(videosResponse.data.items.length < 10) {
                     setError(true);
                     return;
@@ -97,7 +93,7 @@ export const CategoryPage = () => {
 
                 setImages(videosResponse.data.items.filter((item: Video) => !!item.snippet.thumbnails.maxres).slice(0,6));
                 setCategory(categoryResponse.data.items[0]);
-                setVideos({items: videosItems });
+                setVideos({items: videosItems, nextPageToken: videosResponse.data.nextPageToken });
                 
             } catch (error: any) {
 
@@ -119,29 +115,17 @@ export const CategoryPage = () => {
        <PageContainer>
            {!error ? 
                 (   
-                    <CategoryContainer>
-                        {   
-                            images?.length ? 
-                                <CarouselComponent images={images}/> 
-                            :   <CarouselSkeleton width="100%" height={{xs: 300, sm: 400, md: 460}}>
-                                    <Skeleton animation="wave" width='100%' variant="rectangular" />
-                                </CarouselSkeleton>
-                        }
-                        { 
-                            category ?
-                                <CategoryTittle>
-                                    <Image src={icon} borderRadius='50%' width='50px' height={50} alt='category-title'/>
-                                    <h1>
-                                        {category?.snippet.title}
-                                    </h1>
-                                </CategoryTittle>
-                            :   <CategoryTittle>
-                                    <Skeleton animation="wave" variant="circular" height={50} width={50} />
-                                    <Skeleton animation="wave" width={200} height={30} />
-                                </CategoryTittle>
-                        }
-                        <VideosWrapper videos={videos?.items || null}/>
-                    </CategoryContainer>
+                    <CategoryPageContainer>
+                        <CategoryMain 
+                            images={images} 
+                            category={category} 
+                            videos={videos?.items || null} 
+                            nextPageToken={videos?.nextPageToken || null}  
+                            categoryId={categoryId}
+                            setVideos={setVideos} 
+                        />
+                        <Footer/>
+                    </CategoryPageContainer>
                 )
            : <NotFound/>}
        </PageContainer>

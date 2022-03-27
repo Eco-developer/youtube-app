@@ -44,9 +44,8 @@ export const CarouselComponent = ({images}: Props) => {
                         navigate(`${VIDEO}?videoId=${item.contentDetails?.videoId || item.id}`)
                     }
                     return ( 
-                        <>
+                        <div key={uuid()}>
                             <Image 
-                                key={uuid()}
                                 width="100%" 
                                 height={300} 
                                 src={item.snippet.thumbnails.maxres?.url || item.snippet.thumbnails.default.url} 
@@ -55,7 +54,7 @@ export const CarouselComponent = ({images}: Props) => {
                                 heightMid={400} 
                                 heightHigh={460}
                             />  
-                            <CarouselInfo onClick={handleClick}>
+                            <CarouselInfo onClick={handleClick} >
                                 <InfoContainer>
                                     <TitleWrapper>
                                         <TitleContainer>
@@ -74,7 +73,7 @@ export const CarouselComponent = ({images}: Props) => {
                                     </WatchBtn>
                                 </InfoContainer>
                             </CarouselInfo>
-                        </>
+                        </div>
                     )
                 })
                }

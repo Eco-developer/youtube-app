@@ -26,7 +26,6 @@ export const Sidebar = () => {
         dispatch(setShowSidebar(false));
 
     }
-    console.log(categories)
     return (
         <SidebarContainer show={show}>
             <SidebarMain show={show}>
