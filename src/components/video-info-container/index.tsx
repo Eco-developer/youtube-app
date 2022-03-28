@@ -19,8 +19,9 @@ import {
     ArrowCircleUpSharp 
 } from '@mui/icons-material';
 import { useState } from 'react';
-import {v4 as uuid } from 'uuid';
-
+import { useNavigate } from 'react-router-dom';
+import { v4 as uuid } from 'uuid';
+import { CHANNEL } from '../../const/routes';
 
 interface Props {
     viewCount?: string, 
@@ -30,14 +31,21 @@ interface Props {
     channelTitle?: string, 
     channelProfile: string, 
     subscriberCount?: string,
+    channelId?: string,
 }
 
-export const VideoInfoContainer = ({viewCount, videoTitle, likeCount, description, channelTitle, channelProfile, subscriberCount}: Props) => {
+export const VideoInfoContainer = ({viewCount, videoTitle, likeCount, description, channelTitle, channelProfile, subscriberCount, channelId}: Props) => {
     const [more, setMore] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     const handleMore = () => {
         setMore((prevState: boolean) => !prevState);
     }
+
+    const handleGoToChannel = () => {
+        navigate(`${CHANNEL}?channelId=${channelId}`);
+    }
+    console.log(channelId)
     return (
         <Stack flexDirection='column' width="100%" spacing={1} marginTop={1} borderBottom={1} paddingBottom={1} borderColor='#e5e5e5'>
             <Stack>
@@ -82,6 +90,7 @@ export const VideoInfoContainer = ({viewCount, videoTitle, likeCount, descriptio
                         height={50} 
                         alt="channel-profile"
                         borderRadius="50%"
+                        onClick={handleGoToChannel}
                     />
                 </Stack>
                 <Stack spacing={1} width="calc(100% - 66px);">

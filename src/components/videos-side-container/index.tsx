@@ -1,9 +1,6 @@
 import { VideosWrapper } from "../videos-wrapper";
-import { 
-    VideosSideWrapper, 
-    MoreBtn 
-} from "./style";
-import { CircularProgress, Stack } from "@mui/material";
+import { MoreBtnContainer } from "../more-btn";
+import { VideosSideWrapper } from "./style";
 import { 
     Dispatch, 
     SetStateAction, 
@@ -27,7 +24,6 @@ interface Props {
     setVideos: Dispatch<SetStateAction<Videos | null>>,
     playlistId?: string | undefined | null
 }
-
 
 export const VideosSideContainerBase = ({videoId, videos, nextPageToken, setVideos, playlistId}: Props) => {
     const [pendingMore, setPendingMore] = useState(false);
@@ -60,15 +56,11 @@ export const VideosSideContainerBase = ({videoId, videos, nextPageToken, setVide
             <VideosSideWrapper>
                 <VideosWrapper videos={videos} display='flex' skeletonAmount={5}/>
             </VideosSideWrapper>
-            {nextPageToken ?
-                <Stack justifyContent="center" alignItems="center">
-                    <MoreBtn onClick={fethMoreVideos}>
-                        { pendingMore ? 
-                            <CircularProgress size={20}/>
-                            : "Load More Videos" }
-                    </MoreBtn>
-                </Stack>
-            : null}
+            <MoreBtnContainer 
+                nextPageToken={nextPageToken} 
+                pendingMore={pendingMore} 
+                handleClick={fethMoreVideos}
+            />
        </> 
         
     )

@@ -1,11 +1,11 @@
 import { VideosWrapper } from '../../components/videos-wrapper/index';
 import { Image } from '../image';
 import { CarouselComponent } from '../carousel';
-import { CircularProgress, Skeleton, Stack } from "@mui/material";
+import { MoreBtnContainer } from '../more-btn';
+import { Skeleton } from "@mui/material";
 import {
     CategoryTittle, 
     CarouselSkeleton,
-    MoreBtn
 } from './style';
 import { 
     Category, 
@@ -90,15 +90,11 @@ export const CategoryMain = ({images, category, videos, nextPageToken, categoryI
                     </CategoryTittle>
             }
             <VideosWrapper videos={videos}/>
-            {nextPageToken ?
-                <Stack justifyContent="center" alignItems="center">
-                    <MoreBtn onClick={fethMoreVideos}>
-                        { pendingMore ? 
-                            <CircularProgress size={20}/>
-                            : "Load More Videos" }
-                    </MoreBtn>
-                </Stack>
-            : null}
+            <MoreBtnContainer 
+                nextPageToken={nextPageToken} 
+                pendingMore={pendingMore} 
+                handleClick={fethMoreVideos}
+            />
         </>
     )
 }

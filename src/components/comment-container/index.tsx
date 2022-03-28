@@ -14,9 +14,10 @@ import {
     ArrowDropUp
 } from "@mui/icons-material";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import { Replies, Comment } from '../../interfaces/index';
-
+import { CHANNEL } from "../../const/routes";
 
 interface Props {
     authorProfileImageUrl: string,
@@ -25,17 +26,22 @@ interface Props {
     textDisplay: string,
     likeCount: number,
     replies: Replies | null | undefined,
+    channelId?: string,
 }
 
-export const CommentContainer = ({authorProfileImageUrl, authorDisplayName, publishedAt, textDisplay, likeCount, replies}: Props) => {
+export const CommentContainer = ({authorProfileImageUrl, authorDisplayName, publishedAt, textDisplay, likeCount, channelId, replies}: Props) => {
     const [more, setMore] = useState<boolean>(false);
     const [showReplies, setReplies] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     const handleMore = () => {
         setMore((prevState: boolean) => !prevState);
     }
     const handleReplies = () => {
         setReplies((prevState: boolean) => !prevState);
+    }
+    const handleGoToChannel = () => {
+        navigate(`${CHANNEL}?channelId=${channelId}`)
     }
     return (
         <Stack flexDirection='row' marginBottom={2}>
@@ -46,6 +52,7 @@ export const CommentContainer = ({authorProfileImageUrl, authorDisplayName, publ
                     src={authorProfileImageUrl} 
                     alt='avatar-profile'
                     borderRadius='50%'
+                    onClick={handleGoToChannel}
                 />
             </Stack>
             <Stack flexDirection='column'>
@@ -110,6 +117,7 @@ export const CommentContainer = ({authorProfileImageUrl, authorDisplayName, publ
                                 publishedAt={comment.snippet.publishedAt}
                                 textDisplay={comment.snippet.textDisplay}
                                 likeCount={comment.snippet.likeCount}
+                                channelId={comment.snippet.authorChannelId.value}
                                 replies={null}
                             /> ))}
                     </Stack>

@@ -1,20 +1,15 @@
 import { CommentContainer } from '../comment-container/index';
 import { CommentsSectionHead } from '../comments-head';
 import { CommentsSectionSkeleton } from '../comments-section-skeleton';
+import { MoreBtnContainer } from '../more-btn';
 import { 
     CommentsContainer, 
     CommentsSectionContainer,
-    MoreBtn
 } from './style';
-import { 
-    CircularProgress,
-    SelectChangeEvent, 
-    Stack 
-} from '@mui/material';
+import { SelectChangeEvent } from '@mui/material';
 import { 
     Dispatch,
     SetStateAction,
-    useEffect, 
     useState,
 } from 'react';
 import { v4 as uuid } from 'uuid';
@@ -108,19 +103,17 @@ export const CommentsSection = ({commentCount, videoId, nextPageToken, comments,
                                 publishedAt={comment.snippet.topLevelComment.snippet.publishedAt}
                                 textDisplay={comment.snippet.topLevelComment.snippet.textDisplay}
                                 likeCount={comment.snippet.topLevelComment.snippet.likeCount}
+                                channelId={comment.snippet.topLevelComment.snippet.authorChannelId.value}
                                 replies={comment.replies}
                             />
                         ))}
                     </CommentsContainer>
-                    {nextPageToken ?
-                        <Stack justifyContent="center" alignItems="center">
-                            <MoreBtn onClick={fethMoreComments}>
-                                { pendingMore ? 
-                                    <CircularProgress size={20}/>
-                                    : "Load More Commets" }
-                            </MoreBtn>
-                        </Stack>
-                    : null}
+                    <MoreBtnContainer 
+                        nextPageToken={nextPageToken} 
+                        pendingMore={pendingMore} 
+                        handleClick={fethMoreComments}
+                        btnName='Load more comments'
+                    />
                 </> 
                 : null)
             : <CommentsSectionSkeleton/>}

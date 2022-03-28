@@ -31,7 +31,7 @@ export const CategoryPage = () => {
     const [images, setImages] = useState<Video[] | null>(null);
     const categoryId = queries.get('categoryId');
     const navigate = useNavigate();
-    console.log(category)
+
     useEffect(() => {
         if (!categoryId) {
             navigate('/');
@@ -95,9 +95,9 @@ export const CategoryPage = () => {
                 setCategory(categoryResponse.data.items[0]);
                 setVideos({items: videosItems, nextPageToken: videosResponse.data.nextPageToken });
                 
-            } catch (error: any) {
+            } catch (errorRes: any) {
 
-                if (error.response.data.error.code) {
+                if (errorRes) {
                     setError(true);
                 } 
             }

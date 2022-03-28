@@ -3,15 +3,25 @@ import {
     MenubarItemsBase, 
     Item 
 } from "./style";
-import { useState } from "react";
+import { 
+    Dispatch, 
+    SetStateAction, 
+    useState 
+} from "react";
 import { v4 as uuid } from "uuid";
 
+interface Props {
+    setSection: Dispatch<SetStateAction<number>>
+}
 
-export const MenuBar = () => {
-    const items = ["Videos", "Channels"];
+export const MenuBar = ({setSection}: Props) => {
+    const items = ["Home", "Videos", "Lists", "Info"];
     const [current, setCurrent] = useState<number>(0);
     
-
+    const handleClick = (index: number) => {
+        setCurrent(index);
+        setSection(index);
+    }
     return (
         <MenubarContainer>
             <MenubarItemsBase>
@@ -20,7 +30,7 @@ export const MenuBar = () => {
                     <Item 
                         key={uuid()}
                         current={index === current} 
-                        onClick={() => setCurrent(index)}
+                        onClick={() => handleClick(index)}
                     >	
                         <span>{item}</span>
                     </Item>

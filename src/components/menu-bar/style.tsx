@@ -2,7 +2,17 @@ import styled from "styled-components";
 
 
 export const MenubarContainer = styled.nav`
-    background-color: #fff;
+  background-color: #fff;
+  padding: 0 20px;
+  overflow-x: scroll;
+  -ms-overflow-style: none; 
+    scrollbar-width: none;
+  &::-webkit-scrollbar {
+      display: none;
+  }
+  @media (min-width: 500px) {
+      padding: 0px 40px;
+  }
 `
 
 export const MenubarItemsBase = styled.ul`
@@ -12,22 +22,17 @@ export const MenubarItemsBase = styled.ul`
   height: 100%;
   justify-content: flex-start;
   margin: 0px;
-  padding-bottom: 0;
-  padding-top: 10px;
-  padding-left: 40px;
+  padding: 0;
   position: relative;
   margin-right: auto;
   list-style: none;
-  
+
 `;
 
 export const Item = styled.li<{current: boolean}>`
-  @media (max-width: 800px) {
-    padding: 15px 0;
-  }
+  padding: 6px 0;
   display: flex;
   align-items: center;
-  padding: 0;
   cursor: pointer;
   span {
     color: #030303;

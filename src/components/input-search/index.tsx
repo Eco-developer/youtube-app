@@ -10,10 +10,29 @@ import {
   Search,
   Mic
 } from '@mui/icons-material';
-import { useState } from "react";
+import { 
+  FormEvent, 
+  useState 
+} from "react";
+import { 
+  useLocation,
+  useNavigate, 
+  useSearchParams 
+} from "react-router-dom";
+import { RESULT } from "../../const/routes";
 
 export const InputSearch = () => {
     const [focus, setFocus] = useState<Boolean>(false);
+    const [searchValue, setSearchValue] = useState<string>('');
+    const navigate = useNavigate();
+    const [queries, setQueries] = useSearchParams();
+    const { pathname } = useLocation();
+
+    const onChange = (e: FormEvent<HTMLInputElement>) => {
+      const { currentTarget: { value } } = e;
+      setSearchValue(value);
+    }
+
     const handleFocus = () => {
         setFocus(true);
     };
@@ -21,13 +40,29 @@ export const InputSearch = () => {
     const handleBlur = () => {
       setFocus(false);
     };
+
+    const onSearch = () => {
+      if (!searchValue) {
+        return;
+      }
+      if (!pathname.includes(RESULT.slice(1))) {
+        navigate(`${RESULT}?q=${searchValue}`);
+        return;
+      }
+      setQueries({q: searchValue});
+    }
+
     return (
         <SearchContainer>
           <SearchBox>
             <InputContainer hasFocus={focus}>
-              <Input onFocus={handleFocus} onBlur={handleBlur}/>
+              <Input 
+                onFocus={handleFocus} 
+                onBlur={handleBlur} 
+                onChange={onChange}
+              />
             </InputContainer>
-            <SearchButtonContainer>
+            <SearchButtonContainer onClick={onSearch}>
                 <Search/>
               </SearchButtonContainer>
           </SearchBox>

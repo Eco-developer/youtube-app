@@ -2,12 +2,9 @@ import styled from "styled-components";
 import { PageContainer } from "../../global-styles/style";
 
 export const VideoPageConatiner = styled(PageContainer)`
-    padding: 20px;
     flex-direction: column;
-    @media (min-width: 1000px) {
-        flex-direction: row;
-    }
 `
+
 
 export const VideoMainSection = styled.main`
     width: 100%;
@@ -26,5 +23,14 @@ export const VideoSideSection = styled.aside`
     flex-direction: column;
     @media(min-width: 1000px) {
         width: 30%;
+    }
+`
+
+export const VideoPageWrapper = styled.div`
+    display: flex;
+    padding: 20px;
+    flex-direction: column;
+    @media (min-width: 1000px) {
+        flex-direction: row;
     }
 `

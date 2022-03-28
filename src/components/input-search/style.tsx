@@ -35,6 +35,7 @@ export const Input = styled.input`
     margin: 0;
     color: #050505;
     border: none;
+    width: 100%;
 `
 
 export const SearchButtonContainer = styled.div`

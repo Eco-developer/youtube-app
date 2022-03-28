@@ -1,6 +1,6 @@
 export const KEY: string | undefined = process.env.REACT_APP_YOUTUBE_API;
 export const PART = {
-    SERACH: 'snippet',
+    SERACH: 'id',
     CHANNEL: 'snippet,statistics,brandingSettings,contentDetails,topicDetails',
     VIDEOS: 'id,snippet,contentDetails,statistics,status,topicDetails',
     COMMENTS: 'id,replies,snippet',
@@ -16,6 +16,8 @@ export const MAXRESULTS = {
     PLAYLIST: '50',
     PLAYLISTITEMS: '50',
 };
+
+export const TYPE: string = 'video';
 
 export const CHART: string= 'mostPopular';
 export const REGIONCODE = 'US';

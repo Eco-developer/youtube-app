@@ -1,10 +1,13 @@
 import { VideoContainer } from '../../components/video-container';
 import { CommentsSection } from '../../components/comments-section';
 import { VideosSideContainer } from '../../components/videos-side-container';
+import { Footer } from '../../components/footer';
+import { NotFound } from '../../components/not-found';
 import { 
     VideoPageConatiner, 
     VideoMainSection,
-    VideoSideSection
+    VideoSideSection,
+    VideoPageWrapper
 } from './style';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { 
@@ -23,6 +26,7 @@ export const VideoPage = () => {
     const [video, setVideo] = useState<Video | null>(null);
     const [videos, setVideos] = useState<{items: Video[], nextPageToken: string | undefined | null, playlistId: string | undefined | null} | null>(null);
     const [comments, setComments] = useState<{items: Comments[], nextPageToken: string | undefined | null} | null>(null);
+    const [error, setError] = useState<boolean>(false);
     const navigate = useNavigate();
     const videoId = queries.get('videoId');
     
@@ -46,6 +50,10 @@ export const VideoPage = () => {
                             signal: controller?.signal
                         }
                     );
+                if (!videoResponse.data.items.length) {
+                    setError(true);
+                    return;
+                }
                 const channelsResponse = await request.get('channels',
                     { 
                         params : {
@@ -73,20 +81,7 @@ export const VideoPage = () => {
                         signal: controller?.signal
                     }
                 )
-        
-
-              /*  const playlistResponse = await request.get('playlists',
-                    { 
-                        params : {
-                            part: 'id,snippet,status',
-                            id: videoResponse.data.items[0].id,
-                            maxResults: '50',
-                            key:API.KEY,
-                        }
-                    }
-                )
-                console.log(playlistResponse.data);*/
-
+                
                 const playlistsItems = await request.get('playlistItems',
                     { 
                         params : {
@@ -94,6 +89,7 @@ export const VideoPage = () => {
                             playlistId: channelsResponse.data.items[0].contentDetails.relatedPlaylists.uploads,
                             maxResults: '50',
                             key:API.KEY,
+                            signal: controller?.signal,
                         }
                     }
                 );
@@ -107,11 +103,14 @@ export const VideoPage = () => {
                 setComments({items: commetsRespose.data.items, nextPageToken: commetsRespose.data.nextPageToken});
                 setVideos({items: playlistsItems.data.items, nextPageToken: playlistsItems.data.nextPageToken, playlistId: channelsResponse.data.items[0].contentDetails.relatedPlaylists.uploads});
                 
-            } catch (error) {
-                console.log(error);
+            } catch (errorRes : any) {
+                if (errorRes) {
+                    setError(true);
+                } 
             }
             controller = null;
         }
+        setError(false);
         setVideo(null);
         setComments(null);
         setVideos(null);
@@ -120,25 +119,33 @@ export const VideoPage = () => {
     }, [videoId])
     return (
         <VideoPageConatiner>
-            <VideoMainSection>
-                <VideoContainer video={video}/>
-                <CommentsSection 
-                    commentCount={video?.statistics?.commentCount}
-                    videoId={videoId}
-                    comments={comments?.items}
-                    nextPageToken={comments?.nextPageToken}
-                    setComments={setComments}
-                />
-            </VideoMainSection>
-            <VideoSideSection>
-                <VideosSideContainer 
-                    videoId={videoId} 
-                    videos={videos?.items || null}
-                    nextPageToken={videos?.nextPageToken}
-                    setVideos={setVideos}
-                    playlistId={videos?.playlistId || null}
-                />
-            </VideoSideSection>
+            {!error ?
+                <>
+                    <VideoPageWrapper>
+                        <VideoMainSection>
+                            <VideoContainer video={video}/>
+                            <CommentsSection 
+                                commentCount={video?.statistics?.commentCount}
+                                videoId={videoId}
+                                comments={comments?.items}
+                                nextPageToken={comments?.nextPageToken}
+                                setComments={setComments}
+                            />
+                        </VideoMainSection>
+                        <VideoSideSection>
+                            <VideosSideContainer 
+                                videoId={videoId} 
+                                videos={videos?.items || null}
+                                nextPageToken={videos?.nextPageToken}
+                                setVideos={setVideos}
+                                playlistId={videos?.playlistId || null}
+                            />
+                        </VideoSideSection>
+                    </VideoPageWrapper>
+                    <Footer/>
+                </>
+                : <NotFound/>
+            }
         </VideoPageConatiner>
     )
 }

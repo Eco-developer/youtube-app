@@ -13,7 +13,6 @@ interface Props {
 } 
 
 export const VideoContainer = ({video}: Props) => {
-    
     return (
         <VideoWrapperContainer>
             {video ?
@@ -35,6 +34,7 @@ export const VideoContainer = ({video}: Props) => {
                         description={video.snippet.description} 
                         channelTitle={video.channel?.snippet.channelTitle || video.channel?.snippet.title} 
                         channelProfile={video.channel?.snippet.thumbnails.default.url || icon} 
+                        channelId={video?.channel?.id}
                         subscriberCount={video.channel?.statistics.subscriberCount}
                     />
                 </>)
