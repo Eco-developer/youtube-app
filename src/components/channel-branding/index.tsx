@@ -5,6 +5,7 @@ import {
     ChannelBrandingContainer,
     ChannelProfileContainer,
     ChannelNameContainer,
+    Banner,
 } from "./style";
 import { 
     Dispatch, 
@@ -23,7 +24,7 @@ interface Props {
 export const ChannelBranding = ({bannerExternalUrl, channelAvatar, tittle, subscriberCount, setSection}: Props) => {
     return (
         <ChannelBrandingContainer>
-            <Image src={bannerExternalUrl || logo} width='100%' height={300} alt='branding'/>
+            <Banner src={bannerExternalUrl || logo}/>
             <ChannelProfileContainer>
                 <Image src={channelAvatar} width='70px' height={70} alt='avatar' borderRadius="50%"/>
                 <ChannelNameContainer>
