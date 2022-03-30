@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { fallback } from "../../const/images";
 
 export const ChannelBrandingContainer = styled.div`
     width: 100%;
@@ -13,7 +14,7 @@ interface Props {
 export const Banner = styled.div<Props>`
     height: 300px;
     width: 100%;
-    background-image: url(${props=> props.src});
+    background-image: url(${props=> props.src}), url(fallback);
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;

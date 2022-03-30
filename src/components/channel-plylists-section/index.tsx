@@ -12,8 +12,11 @@ import {
     useState 
 } from "react";
 import { request } from "../../services";
-import { KEY } from "../../const/youtube-api";
 import { useSearchParams } from "react-router-dom";
+import { 
+    KEY, 
+    PART 
+} from "../../const/youtube-api";
 
 interface Playlists {
     items: Playlist[],
@@ -38,18 +41,18 @@ export const ChannelPlaylistsSection = ({playlists, nextPageToken, setPlaylists}
         setPendingMore(true);
         try {
             const playlistsSectionResponse = await request.get('playlists',
-                    { 
-                        params : {
-                            part: 'id,snippet,status,contentDetails',
-                            channelId,
-                            maxResults: '50',
-                            key: KEY,
-                            ...(nextPageToken ? { pageToken: nextPageToken } : {}),
-                        }
+                { 
+                    params : {
+                        part: PART.PLAYLIST,
+                        channelId,
+                        maxResults: '50',
+                        key: KEY,
+                        ...(nextPageToken ? { pageToken: nextPageToken } : {}),
                     }
-                )
+                }
+            )
             
-            setPlaylists((prevState: Playlists | null) => ({items: [...(prevState?.items ? prevState.items : []), ...playlistsSectionResponse .data.items], nextPageToken: playlistsSectionResponse .data.nextPageToken || null}))
+            setPlaylists((prevState: Playlists | null) => ({items: [...(prevState?.items ? prevState.items : []), ...playlistsSectionResponse.data.items.filter((item: Playlist) => item.contentDetails.itemCount > 1)], nextPageToken: playlistsSectionResponse.data.nextPageToken || null}))
         } catch (error) {
             console.log(error)
         }

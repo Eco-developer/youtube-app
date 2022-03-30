@@ -4,8 +4,8 @@ export const PART = {
     CHANNEL: 'snippet,statistics,brandingSettings,contentDetails,topicDetails',
     VIDEOS: 'id,snippet,contentDetails,statistics,status,topicDetails',
     COMMENTS: 'id,replies,snippet',
-    PLAYLIST: 'id,snippet,status',
-    PLAYLISTITEMS: 'id,snippet,status,contentDetail',
+    PLAYLIST: 'id,snippet,status,contentDetails',
+    PLAYLISTITEMS: 'id,snippet,status,contentDetails',
     CATEGORIES: 'id,snippet',
 };
 export const MAXRESULTS = {

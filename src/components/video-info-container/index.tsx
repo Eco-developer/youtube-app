@@ -18,7 +18,7 @@ import {
     ArrowCircleDownSharp, 
     ArrowCircleUpSharp 
 } from '@mui/icons-material';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 import { CHANNEL } from '../../const/routes';
@@ -34,7 +34,7 @@ interface Props {
     channelId?: string,
 }
 
-export const VideoInfoContainer = ({viewCount, videoTitle, likeCount, description, channelTitle, channelProfile, subscriberCount, channelId}: Props) => {
+export const VideoInfoContainerBase = ({viewCount, videoTitle, likeCount, description, channelTitle, channelProfile, subscriberCount, channelId}: Props) => {
     const [more, setMore] = useState<boolean>(false);
     const navigate = useNavigate();
 
@@ -45,7 +45,6 @@ export const VideoInfoContainer = ({viewCount, videoTitle, likeCount, descriptio
     const handleGoToChannel = () => {
         navigate(`${CHANNEL}?channelId=${channelId}`);
     }
-    console.log(channelId)
     return (
         <Stack flexDirection='column' width="100%" spacing={1} marginTop={1} borderBottom={1} paddingBottom={1} borderColor='#e5e5e5'>
             <Stack>
@@ -120,3 +119,5 @@ export const VideoInfoContainer = ({viewCount, videoTitle, likeCount, descriptio
         </Stack>
     )
 }
+
+export const VideoInfoContainer = memo(VideoInfoContainerBase);

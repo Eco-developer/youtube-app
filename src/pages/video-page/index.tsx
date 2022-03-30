@@ -17,19 +17,22 @@ import {
 import { request } from '../../services/index';
 import {
     Video, 
-    Comments 
+    Comments,
+    Playlist
 } from '../../interfaces/index';
 import * as API from '../../const/youtube-api';
+import { VideoPlaylist } from '../../components/video-playlist';
 
 export const VideoPage = () => {
     const [queries] = useSearchParams();
     const [video, setVideo] = useState<Video | null>(null);
     const [videos, setVideos] = useState<{items: Video[], nextPageToken: string | undefined | null, playlistId: string | undefined | null} | null>(null);
     const [comments, setComments] = useState<{items: Comments[], nextPageToken: string | undefined | null} | null>(null);
+    const [playlistItems, setPlaylistItems] = useState<{items: Video[], nextPageToken: string | undefined | null, playlistId: string | undefined | null, playlistData: Playlist | undefined } | null>(null);
     const [error, setError] = useState<boolean>(false);
     const navigate = useNavigate();
     const videoId = queries.get('videoId');
-    
+    const playlistId = queries.get('playlistId');
 
     useEffect(() => {
         if (!videoId) {
@@ -82,26 +85,53 @@ export const VideoPage = () => {
                     }
                 )
                 
-                const playlistsItems = await request.get('playlistItems',
+                const relatedVideosResponse = await request.get('playlistItems',
                     { 
                         params : {
-                            part: 'id,snippet,status,contentDetails',
+                            part: API.PART.PLAYLISTITEMS,
                             playlistId: channelsResponse.data.items[0].contentDetails.relatedPlaylists.uploads,
-                            maxResults: '50',
+                            maxResults: API.MAXRESULTS.PLAYLISTITEMS,
                             key:API.KEY,
-                            signal: controller?.signal,
-                        }
+                           
+                        }, 
+                        signal: controller?.signal,
                     }
                 );
+
+                if (playlistId) {
+                    const playlistItemsResponse = await request.get('playlistItems',
+                        { 
+                            params : {
+                                part: API.PART.PLAYLISTITEMS,
+                                playlistId,
+                                maxResults: API.MAXRESULTS.PLAYLISTITEMS,
+                                key:API.KEY,
+                                
+                            },
+                            signal: controller?.signal,
+                        }
+                    );
+                    const playlistResponse = await request.get('playlists',
+                        { 
+                            params : {
+                                part: API.PART.PLAYLIST,
+                                id: playlistId,
+                                maxResults: '1',
+                                key: API.KEY,
+                            }
+                        }
+                    )
+
+                    setPlaylistItems({items: playlistItemsResponse.data.items, nextPageToken: playlistItemsResponse.data.nextPageToken, playlistId, playlistData: playlistResponse.data.items[0]});
+                }
 
                 const currentVideo: Video = {
                     ...videoResponse.data.items[0],
                     channel: channelsResponse.data.items[0]
                 }
-                
                 setVideo(currentVideo);
                 setComments({items: commetsRespose.data.items, nextPageToken: commetsRespose.data.nextPageToken});
-                setVideos({items: playlistsItems.data.items, nextPageToken: playlistsItems.data.nextPageToken, playlistId: channelsResponse.data.items[0].contentDetails.relatedPlaylists.uploads});
+                setVideos({items: relatedVideosResponse.data.items, nextPageToken: relatedVideosResponse.data.nextPageToken, playlistId: channelsResponse.data.items[0].contentDetails.relatedPlaylists.uploads});
                 
             } catch (errorRes : any) {
                 if (errorRes) {
@@ -133,6 +163,15 @@ export const VideoPage = () => {
                             />
                         </VideoMainSection>
                         <VideoSideSection>
+                            {playlistId ?
+                                <VideoPlaylist
+                                    playlist={playlistItems?.items || null}
+                                    nextPageToken={playlistItems?.nextPageToken}
+                                    setPlaylistItems={setPlaylistItems}
+                                    playlistId={playlistId}
+                                    playlistData={playlistItems?.playlistData}
+                                />
+                            : null}
                             <VideosSideContainer 
                                 videoId={videoId} 
                                 videos={videos?.items || null}
