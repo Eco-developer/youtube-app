@@ -18,4 +18,10 @@ export interface Snippet {
     },
     defaultAudioLanguage?: string,
     publishTime?: string,
+    position?: number,
+    resourceId?: {
+        kind: string,
+        videoId: string,
+    }
+
 }

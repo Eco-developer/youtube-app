@@ -44,7 +44,7 @@ export const PlaylistMiniatur = ({playlist}: VideoCardProps) => {
                 }
             );
             console.log()
-            navigate(`${VIDEO}?videoId=${playlistsItems.data.items[0].contentDetails.videoId}&playlistId=${playlist.id}`)
+            navigate(`${VIDEO}?videoId=${playlistsItems.data.items[0].contentDetails.videoId}&playlistId=${playlist.id}&position=0`)
         } catch (error) {
             console.error(error);
         }
