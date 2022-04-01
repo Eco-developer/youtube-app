@@ -1,12 +1,6 @@
-import TextTruncate from 'react-text-truncate';
-import {
-    PlaylistWrapper, 
-    PlaylistItem, 
-    ItemContainer, 
-    InfoContainer, 
-    PlaylistTittle
-} from "./style";
 import { PlaylistContainer } from "../playlist-container";
+import { PlaylistItem } from '../playlist-item';
+import { PlaylistWrapper } from "./style";
 import { 
     Dispatch, 
     SetStateAction, 
@@ -14,17 +8,18 @@ import {
     useState
 } from "react";
 import { useSearchParams } from "react-router-dom";
-import { request } from "../../services";
-import { 
-    Playlist, 
-    Video 
-} from "../../interfaces";
-import { Image } from "../image";
 import { 
     KEY, 
     MAXRESULTS, 
     PART 
 } from "../../const/youtube-api";
+import { request } from "../../services";
+import { 
+    Playlist, 
+    Video 
+} from "../../interfaces";
+import { v4 as uuid } from 'uuid';
+
 interface Playlists {
     items: Video[]; 
     nextPageToken: string | null | undefined,
@@ -44,8 +39,9 @@ export const VideoPlaylistBase = ({playlist, nextPageToken, setPlaylistItems, pl
     console.log(playlist)
     const [pendingMore, setPendingMore] = useState<boolean>(false);
     const [queries] = useSearchParams();
-    const position : string = queries.get('position') || '0';
-    console.log(position);
+    const currentPosition : string = queries.get('position') || '0';
+    console.log(currentPosition);
+
     const fethMorePlaylistItems = async () => {
 
         if (!nextPageToken) {
@@ -74,32 +70,24 @@ export const VideoPlaylistBase = ({playlist, nextPageToken, setPlaylistItems, pl
     return (
         <PlaylistWrapper>
             {playlist ?
-                <PlaylistContainer playlistData={playlistData} position={position}>
+                <PlaylistContainer 
+                    playlistData={playlistData} 
+                    position={currentPosition} 
+                    pendingMore={pendingMore}
+                    fethMorePlaylistItems={fethMorePlaylistItems}
+                    nextPageToken={nextPageToken}
+                >
                     {playlist.map((item: Video) =>(
-                        <PlaylistItem>
-                            {item.snippet.position}
-                            <ItemContainer>
-                                <Image src={item.snippet.thumbnails?.default.url} alt='item' height={90} width='120px' />
-                                <InfoContainer>
-                                    <PlaylistTittle>
-                                        <TextTruncate
-                                            line={2}
-                                            element="h4"
-                                            truncateText="…"
-                                            text={item.snippet.title}
-                                        /> 
-                                    </PlaylistTittle>
-                                    <PlaylistTittle>
-                                        <TextTruncate
-                                            line={1}
-                                            element="p"
-                                            truncateText="…"
-                                            text={item.snippet.channelTitle}
-                                        /> 
-                                    </PlaylistTittle>
-                                </InfoContainer>
-                            </ItemContainer>
-                        </PlaylistItem>
+                        <PlaylistItem 
+                            key={uuid()}
+                            position={item.snippet.position  || 0}
+                            thumbnail={item.snippet.thumbnails.high?.url || item.snippet.thumbnails?.default.url}
+                            title={item.snippet.title}
+                            channelTitle={item.snippet.channelTitle}  
+                            currentPosition={currentPosition}
+                            playlistId={playlistId}
+                            videoId={item.snippet.resourceId?.videoId}
+                        />
                     ))}
                 </PlaylistContainer>
                 : 'cargando'

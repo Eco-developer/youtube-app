@@ -7,15 +7,21 @@ import {
     PlaylistTittle,
     PlaylistItemsContainer,
     PlaylistItemsWrapper,
+    MoreBtn,
+    ControlsContainer,
 } from "./style";
-
-import { IconButton } from "@mui/material";
+import { 
+    CircularProgress, 
+    IconButton 
+} from "@mui/material";
 import {
     Shuffle, 
     AllInclusive,
     PlaylistAdd,
     KeyboardArrowDown,
-    KeyboardArrowUp
+    KeyboardArrowUp,
+    SkipNext,
+    SkipPrevious
 } from '@mui/icons-material';
 import { Playlist } from "../../interfaces";
 import { useState } from "react";
@@ -23,12 +29,17 @@ import { useState } from "react";
 interface Props {
     playlistData?: Playlist,
     children: any,
-    position: string;
+    position: string,
+    pendingMore: boolean,
+    fethMorePlaylistItems: () => void,
+    nextPageToken: string | null | undefined
 }
 
-export const PlaylistContainer = ({playlistData, children, position}: Props) => {
+export const PlaylistContainer = ({playlistData, children, position, pendingMore, nextPageToken, fethMorePlaylistItems}: Props) => {
     const [clicked, setClicked] = useState<boolean>(false);
-
+    const handleClick = () => {
+        setClicked((prevState: boolean) => !prevState);
+    }
     return (
         <Container>
             <PlaylistInfoContainer>
@@ -54,7 +65,7 @@ export const PlaylistContainer = ({playlistData, children, position}: Props) => 
                     
                 </InfoContainer>
                 <ButtonsContainer>
-                    <IconButton>
+                    <IconButton onClick={handleClick}>
                         {clicked ?
                             <KeyboardArrowUp />
                             :
@@ -65,11 +76,27 @@ export const PlaylistContainer = ({playlistData, children, position}: Props) => 
                     </IconButton>
                 </ButtonsContainer>
             </PlaylistInfoContainer>
-            <PlaylistItemsContainer>
+            <PlaylistItemsContainer clicked={clicked}>
                 <PlaylistItemsWrapper>
                     {children}
+                    {nextPageToken ? 
+                        (<MoreBtn onClick={fethMorePlaylistItems}>
+                            {pendingMore ? 
+                                <CircularProgress size={15}/>
+                            : 'Load more videos'}
+                        </MoreBtn>)
+                    : null}
                 </PlaylistItemsWrapper>
             </PlaylistItemsContainer>
+            <ControlsContainer>
+                <IconButton>
+                    <SkipPrevious/>
+                </IconButton>
+                <IconButton>
+                    <SkipNext/>
+                </IconButton>
+                
+            </ControlsContainer>
         </Container>
     )
 }
