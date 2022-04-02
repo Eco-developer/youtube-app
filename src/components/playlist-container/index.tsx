@@ -32,10 +32,14 @@ interface Props {
     position: string,
     pendingMore: boolean,
     fethMorePlaylistItems: () => void,
-    nextPageToken: string | null | undefined
+    nextPageToken: string | null | undefined,
+    prevPosition: number | null,
+    prevVideoId?: string | null,
+    nextPosition: number | null,
+    nextVideoId?: string | null,
 }
 
-export const PlaylistContainer = ({playlistData, children, position, pendingMore, nextPageToken, fethMorePlaylistItems}: Props) => {
+export const PlaylistContainer = ({playlistData, children, position, pendingMore, nextPageToken, prevPosition, prevVideoId, nextPosition, nextVideoId, fethMorePlaylistItems}: Props) => {
     const [clicked, setClicked] = useState<boolean>(false);
     const handleClick = () => {
         setClicked((prevState: boolean) => !prevState);
@@ -95,7 +99,6 @@ export const PlaylistContainer = ({playlistData, children, position, pendingMore
                 <IconButton>
                     <SkipNext/>
                 </IconButton>
-                
             </ControlsContainer>
         </Container>
     )

@@ -19,6 +19,7 @@ import {
     Video 
 } from "../../interfaces";
 import { v4 as uuid } from 'uuid';
+import { icon } from "../../const/images";
 
 interface Playlists {
     items: Video[]; 
@@ -40,7 +41,15 @@ export const VideoPlaylistBase = ({playlist, nextPageToken, setPlaylistItems, pl
     const [pendingMore, setPendingMore] = useState<boolean>(false);
     const [queries] = useSearchParams();
     const currentPosition : string = queries.get('position') || '0';
-    console.log(currentPosition);
+
+    const prevPosition: number | null = playlist ? (parseInt(currentPosition) === 0 ? null : parseInt(currentPosition) - 1) : null; 
+    const nextPosition: number | null = playlist ? (parseInt(currentPosition) === playlist.length - 1 ? null : parseInt(currentPosition) + 1) : null;  
+
+    const prevVideoId: string | null | undefined = playlist ? (prevPosition !== null ? playlist[prevPosition].snippet.resourceId?.videoId : null) : null;  
+    const nextVideoId: string | null | undefined = playlist ? (nextPosition ? playlist[nextPosition].snippet.resourceId?.videoId : null) : null; 
+
+    console.log(prevVideoId);
+    console.log(nextVideoId)
 
     const fethMorePlaylistItems = async () => {
 
@@ -76,12 +85,16 @@ export const VideoPlaylistBase = ({playlist, nextPageToken, setPlaylistItems, pl
                     pendingMore={pendingMore}
                     fethMorePlaylistItems={fethMorePlaylistItems}
                     nextPageToken={nextPageToken}
+                    prevPosition={prevPosition}
+                    prevVideoId={prevVideoId}
+                    nextPosition={nextPosition}
+                    nextVideoId={nextVideoId}                    
                 >
                     {playlist.map((item: Video) =>(
                         <PlaylistItem 
                             key={uuid()}
                             position={item.snippet.position  || 0}
-                            thumbnail={item.snippet.thumbnails.high?.url || item.snippet.thumbnails?.default.url}
+                            thumbnail={item.snippet.thumbnails.high?.url || item.snippet.thumbnails?.default?.url || icon}
                             title={item.snippet.title}
                             channelTitle={item.snippet.channelTitle}  
                             currentPosition={currentPosition}
