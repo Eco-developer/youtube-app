@@ -22,7 +22,7 @@ export const VideoContainer = ({video}: Props) => {
                             src={`https://www.youtube.com/embed/${video.id}`}
                             title="YouTube video player" 
                             frameBorder="0" 
-                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                             allowFullScreen
                         >
                         </iframe>

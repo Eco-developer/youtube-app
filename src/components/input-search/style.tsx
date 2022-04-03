@@ -14,7 +14,7 @@ export const SearchContainer = styled.div`
     }
 `
 
-export const SearchBox = styled.div`
+export const SearchBox = styled.form`
     flex-grow: 1;    
     display: flex;
 `

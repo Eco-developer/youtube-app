@@ -66,7 +66,6 @@ export const ResultsPage = () => {
                   part: API.PART.VIDEOS,
                   id: videosIds.join(','),
                   key: API.KEY,
-                  
               },
               signal: controller?.signal
             }

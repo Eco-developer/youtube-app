@@ -4,7 +4,7 @@ export const FooterContainer = styled.footer`
   display: flex;
   justify-content: center;
   padding: 20px;
-
+  margin-top: auto;
   a {
     font-family: Montserrat;
     font-style: normal;

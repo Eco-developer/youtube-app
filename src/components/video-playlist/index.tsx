@@ -20,6 +20,7 @@ import {
 } from "../../interfaces";
 import { v4 as uuid } from 'uuid';
 import { icon } from "../../const/images";
+import { VideoPlaylistSkeleton } from "../video-playlist-skeleton";
 
 interface Playlists {
     items: Video[]; 
@@ -103,7 +104,7 @@ export const VideoPlaylistBase = ({playlist, nextPageToken, setPlaylistItems, pl
                         />
                     ))}
                 </PlaylistContainer>
-                : 'cargando'
+                : <VideoPlaylistSkeleton/>
             }
         </PlaylistWrapper>
     )

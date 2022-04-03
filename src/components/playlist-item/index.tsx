@@ -24,7 +24,7 @@ interface Props {
 export const PlaylistItem = ({position, thumbnail, title, channelTitle, currentPosition, playlistId, videoId}: Props) => {
     const [queries, setQueries] = useSearchParams();
 
-    const handlePlayListItem = async () => {
+    const handlePlayListItem = () => {
         if(!videoId || !playlistId) {
             return;
         }

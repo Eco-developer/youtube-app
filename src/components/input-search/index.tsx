@@ -11,7 +11,10 @@ import {
   Mic
 } from '@mui/icons-material';
 import { 
+  ChangeEvent,
   FormEvent, 
+  FormEventHandler, 
+  SyntheticEvent, 
   useState 
 } from "react";
 import { 
@@ -41,7 +44,8 @@ export const InputSearch = () => {
       setFocus(false);
     };
 
-    const onSearch = () => {
+    const onSearch = (event:SyntheticEvent) => {
+      event.preventDefault();
       if (!searchValue) {
         return;
       }
@@ -54,7 +58,7 @@ export const InputSearch = () => {
 
     return (
         <SearchContainer>
-          <SearchBox>
+          <SearchBox onSubmit={onSearch}>
             <InputContainer hasFocus={focus}>
               <Input 
                 onFocus={handleFocus} 
@@ -63,8 +67,8 @@ export const InputSearch = () => {
               />
             </InputContainer>
             <SearchButtonContainer onClick={onSearch}>
-                <Search/>
-              </SearchButtonContainer>
+              <Search/>
+            </SearchButtonContainer>
           </SearchBox>
           <IconButton>
             <Mic/>

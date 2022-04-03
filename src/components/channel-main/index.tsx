@@ -1,6 +1,7 @@
 import { ChannelBranding } from "../channel-branding";
-import { ChannelMainContainer } from "./style";
 import { ChannelVideosSection } from "../channel-videos-section";
+import { ChannelPlaylistsSection } from "../channel-plylists-section";
+import { ChannelMainContainer } from "./style";
 import { 
     Dispatch, 
     SetStateAction, 
@@ -11,8 +12,6 @@ import {
     Playlist, 
     Video 
 } from "../../interfaces";
-import { logo } from "../../const/images";
-import { ChannelPlaylistsSection } from "../channel-plylists-section";
 
 interface Videos {
     items: Video[], 

@@ -72,21 +72,43 @@ export const CategoryMain = ({images, category, videos, nextPageToken, categoryI
             {   
                 images?.length ? 
                     <CarouselComponent images={images}/> 
-                :   <CarouselSkeleton width="100%" height={{xs: 300, sm: 400, md: 460}}>
-                        <Skeleton animation="wave" width='100%' variant="rectangular" />
+                :   <CarouselSkeleton 
+                        width="100%" 
+                        height={{xs: 300, sm: 400, md: 460}}
+                    >
+                        <Skeleton 
+                            animation="wave" 
+                            width='100%' 
+                            variant="rectangular" 
+                        />
                     </CarouselSkeleton>
             }
             { 
                 category ?
                     <CategoryTittle>
-                        <Image src={icon} borderRadius='50%' width='50px' height={50} alt='category-title'/>
+                        <Image 
+                            src={icon} 
+                            borderRadius='50%' 
+                            width='50px' 
+                            height={50} 
+                            alt='category-title'
+                        />
                         <h1>
                             {category?.snippet.title}
                         </h1>
                     </CategoryTittle>
                 :   <CategoryTittle>
-                        <Skeleton animation="wave" variant="circular" height={50} width={50} />
-                        <Skeleton animation="wave" width={200} height={30} />
+                        <Skeleton 
+                            animation="wave" 
+                            variant="circular" 
+                            height={50} 
+                            width={50} 
+                        />
+                        <Skeleton 
+                            animation="wave" 
+                            width={200} 
+                            height={30} 
+                        />
                     </CategoryTittle>
             }
             <VideosWrapper videos={videos}/>

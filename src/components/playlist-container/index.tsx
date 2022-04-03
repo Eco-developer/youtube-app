@@ -25,6 +25,7 @@ import {
 } from '@mui/icons-material';
 import { Playlist } from "../../interfaces";
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 interface Props {
     playlistData?: Playlist,
@@ -41,9 +42,26 @@ interface Props {
 
 export const PlaylistContainer = ({playlistData, children, position, pendingMore, nextPageToken, prevPosition, prevVideoId, nextPosition, nextVideoId, fethMorePlaylistItems}: Props) => {
     const [clicked, setClicked] = useState<boolean>(false);
+    const [queries, setQueries] = useSearchParams();
+
     const handleClick = () => {
         setClicked((prevState: boolean) => !prevState);
     }
+
+    const handlePrevControl = () => {
+        if(!prevVideoId || prevPosition === null || !playlistData) {
+            return;
+        }
+        setQueries({videoId: prevVideoId, playlistId:  playlistData.id, position: `${prevPosition}`});
+    };
+
+    const handleNextControl = () => {
+        if(!nextVideoId || !nextPosition || !playlistData) {
+            return;
+        }
+        setQueries({videoId: nextVideoId, playlistId:  playlistData.id, position: `${nextPosition}`});
+    };
+
     return (
         <Container>
             <PlaylistInfoContainer>
@@ -93,10 +111,10 @@ export const PlaylistContainer = ({playlistData, children, position, pendingMore
                 </PlaylistItemsWrapper>
             </PlaylistItemsContainer>
             <ControlsContainer>
-                <IconButton>
+                <IconButton onClick={handlePrevControl}>
                     <SkipPrevious/>
                 </IconButton>
-                <IconButton>
+                <IconButton onClick={handleNextControl}>
                     <SkipNext/>
                 </IconButton>
             </ControlsContainer>

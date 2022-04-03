@@ -10,6 +10,8 @@ import {
     Playlist, 
     Video 
 } from "../../interfaces";
+import { ChannelPageConatiner } from "./style";
+import { Footer } from "../../components/footer";
 interface Videos {
     items: Video[], 
     nextPageToken?: string | null | undefined, 
@@ -52,8 +54,8 @@ export const ChannelPage = () => {
                     signal: controller?.signal,
                     }
                 );  
-                
-               /* const channelssection = await request.get('activities channelSections',
+                console.log(channelResponse.data);
+                const channelsSectionResponse = await request.get('channelSections',
                     { 
                     params : {
                         part: "contentDetails,id,snippet",
@@ -63,8 +65,9 @@ export const ChannelPage = () => {
                     signal: controller?.signal,
                     }
                 ); 
+                console.log(channelsSectionResponse.data)
 
-                const channelSections = channelssection.data.items.map((item: any) => item.contentDetails?.playlists[0]).filter((item:any) => !!item)
+                /* const channelSections = channelssection.data.items.map((item: any) => item.contentDetails?.playlists[0]).filter((item:any) => !!item)
                 const playlistMainResponse = await request.get('playlists',
                     { 
                         params : {
@@ -87,8 +90,7 @@ export const ChannelPage = () => {
                         }
                     }
                 )
-                console.log(playlistsSectionResponse.data)
-
+                
                 const videosSectionResponse = await request.get('playlistItems',
                     { 
                         params : {
@@ -128,10 +130,12 @@ export const ChannelPage = () => {
     }, [])
 
     return (
-       <PageContainer>
+       <ChannelPageConatiner>
             {   
                 !error ? 
-                    ((channel && videos && playlists) ?
+                    (<>
+                    
+                        {(channel && videos && playlists) ?
                         <ChannelMain 
                             channel={channel} 
                             videos={videos} 
@@ -139,11 +143,11 @@ export const ChannelPage = () => {
                             setVideos={setVideos}
                             setPlaylists={setPlaylists}
                         />
-                        : null
-                    )
-                    
+                        : null}
+                       <Footer/> 
+                    </>)
                 : <NotFound/>
             }
-       </PageContainer>
+       </ChannelPageConatiner>
     )
 }
