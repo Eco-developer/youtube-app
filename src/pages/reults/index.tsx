@@ -6,6 +6,7 @@ import { Channel, Video } from "../../interfaces";
 import { request } from "../../services";
 import * as API from "../../const/youtube-api";
 import { Footer } from '../../components/footer';
+import { NotFound } from '../../components/not-found';
 
 interface SetVideos {
   items: Video[] | null, 
@@ -110,13 +111,18 @@ export const ResultsPage = () => {
 
   return (
     <ResultsPageContainer> 
-      <ResulstMain 
-        videos={videos?.items} 
-        nextPageToken={videos?.nextPageToken} 
-        q={q} 
-        setVideos={setVideos}
-      />
-       <Footer/>
+      {error ? (
+        <>
+          <ResulstMain 
+            videos={videos?.items} 
+            nextPageToken={videos?.nextPageToken} 
+            q={q} 
+            setVideos={setVideos}
+          />
+          <Footer/>
+        </>
+       )
+      : <NotFound/>}
     </ResultsPageContainer>
   )
 }

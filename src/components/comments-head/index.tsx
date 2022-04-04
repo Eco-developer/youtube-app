@@ -1,5 +1,3 @@
-import TextTruncate from 'react-text-truncate';
-import moment from 'moment';
 import { 
     CircularProgress,
     MenuItem, 

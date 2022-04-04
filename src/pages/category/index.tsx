@@ -14,9 +14,6 @@ import {
 import { request } from "../../services";
 import { Category, Channel, Video } from "../../interfaces";
 import * as API from '../../const/youtube-api';
-import { Image } from "../../components/image";
-import { icon } from "../../const/images";
-import { Stack, Skeleton } from "@mui/material";
 
 interface SetVideos {
     items: Video[] | null, 

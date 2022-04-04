@@ -1,9 +1,6 @@
 import { CategoryContainer } from "./styled";
 import { Subscriptions, SubscriptionsOutlined } from "@mui/icons-material";
-import { 
-    useAppDispatch, 
-    useAppSelector 
-} from "../../hooks";
+import { useAppDispatch } from "../../hooks";
 import { setShowSidebar } from '../../features/sidebarSlice/sidebarSlice';
 import { 
     useLocation, 

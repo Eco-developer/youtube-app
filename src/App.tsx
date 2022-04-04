@@ -1,5 +1,5 @@
 import { Navigation } from './pages';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import * as API from './const/youtube-api';
 import { useAppDispatch } from './hooks/index';
 import { request } from './services/index';
