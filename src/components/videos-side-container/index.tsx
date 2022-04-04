@@ -47,7 +47,7 @@ export const VideosSideContainerBase = ({videoId, videos, nextPageToken, setVide
                 );
             setVideos((prevState: Videos | null) => ({items: [...(prevState ? prevState.items : []), ...playlistsItems.data.items], nextPageToken: playlistsItems.data.nextPageToken || null, playlistId}))
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
         setPendingMore(false);
     } 

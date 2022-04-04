@@ -30,12 +30,6 @@ interface Props {
     setVideos: Dispatch<SetStateAction<SetVideos | null>>,
 }
 
-interface Videos {
-    items: Video[]; 
-    nextPageToken: string | null | undefined; 
-    playlistId: string | null | undefined; 
-}
-
 export const CategoryMain = ({images, category, videos, nextPageToken, categoryId, setVideos}: Props) => {
     const [pendingMore, setPendingMore] = useState(false);
 
@@ -63,7 +57,7 @@ export const CategoryMain = ({images, category, videos, nextPageToken, categoryI
                 );
             setVideos((prevState: SetVideos | null) => ({items: [...(prevState?.items ? prevState.items : []), ...videosResponse.data.items], nextPageToken: videosResponse.data.nextPageToken || null, categoryId}))
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
         setPendingMore(false);
     } 

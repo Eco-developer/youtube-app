@@ -95,7 +95,7 @@ export const ResulstMain = ({videos, nextPageToken, q, setVideos}: Props) => {
                     })
             setVideos((prevState: SetVideos | null) => ({items: [...(prevState?.items ? prevState.items : []), ...videosItems], nextPageToken: searchResponse.data.nextPageToken || null}))
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
         setPendingMore(false);
     } 

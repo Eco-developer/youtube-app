@@ -12,6 +12,7 @@ import {
     Playlist, 
     Video 
 } from "../../interfaces";
+import { ChannelInfoSection } from "../channel-info-section";
 
 interface Videos {
     items: Video[], 
@@ -37,8 +38,6 @@ export const ChannelMain = ({channel, videos, playlists, setVideos, setPlaylists
     const handleSections = () => {
         switch (section) {
             case 0:
-                return (<div>inicio</div>);
-            case 1:
                 return (
                     <ChannelVideosSection 
                         videos={videos.items} 
@@ -47,7 +46,7 @@ export const ChannelMain = ({channel, videos, playlists, setVideos, setPlaylists
                         setVideos={setVideos}
                     />
                 );
-            case 2: 
+            case 1: 
                 return (
                     <ChannelPlaylistsSection 
                         playlists={playlists.items} 
@@ -55,10 +54,18 @@ export const ChannelMain = ({channel, videos, playlists, setVideos, setPlaylists
                         setPlaylists={setPlaylists}
                     />
                 );
-            case 3:
-                return (<div>info</div>);
+            case 2:
+                return (<ChannelInfoSection
+                            statistics={channel.statistics}
+                            brandingSettings={channel.brandingSettings}
+                        />);
             default:
-                return (<div>inicion</div>);
+                return (<ChannelVideosSection 
+                    videos={videos.items} 
+                    nextPageToken={videos.nextPageToken} 
+                    uploads={videos.uploads} 
+                    setVideos={setVideos}
+                />);
         }
     }
     return (
@@ -66,7 +73,7 @@ export const ChannelMain = ({channel, videos, playlists, setVideos, setPlaylists
             
             <ChannelBranding 
                 bannerExternalUrl={channel.brandingSettings.image?.bannerExternalUrl} 
-                tittle={channel.brandingSettings.channel.title}
+                title={channel.brandingSettings.channel.title}
                 channelAvatar={channel.snippet.thumbnails.default.url}
                 subscriberCount={channel.statistics.subscriberCount}
                 setSection={setSection}

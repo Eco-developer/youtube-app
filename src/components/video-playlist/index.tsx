@@ -38,7 +38,6 @@ interface Props {
 }
 
 export const VideoPlaylistBase = ({playlist, nextPageToken, setPlaylistItems, playlistId, playlistData}: Props) => {
-    console.log(playlist)
     const [pendingMore, setPendingMore] = useState<boolean>(false);
     const [queries] = useSearchParams();
     const currentPosition : string = queries.get('position') || '0';
@@ -48,9 +47,6 @@ export const VideoPlaylistBase = ({playlist, nextPageToken, setPlaylistItems, pl
 
     const prevVideoId: string | null | undefined = playlist ? (prevPosition !== null ? playlist[prevPosition].snippet.resourceId?.videoId : null) : null;  
     const nextVideoId: string | null | undefined = playlist ? (nextPosition ? playlist[nextPosition].snippet.resourceId?.videoId : null) : null; 
-
-    console.log(prevVideoId);
-    console.log(nextVideoId)
 
     const fethMorePlaylistItems = async () => {
 
@@ -73,7 +69,7 @@ export const VideoPlaylistBase = ({playlist, nextPageToken, setPlaylistItems, pl
             
                 setPlaylistItems((prevState: Playlists | null) => ({items: [...(prevState?.items ? prevState.items : []), ...playlistsItemsResponse.data.items], nextPageToken: playlistsItemsResponse.data.nextPageToken || null, playlistId, playlistData}))
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
         setPendingMore(false);
     } 

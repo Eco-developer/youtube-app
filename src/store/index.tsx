@@ -1,13 +1,15 @@
-import { configureStore } from '@reduxjs/toolkit'
 import videosReducer  from '../features/videos/videosSlice';
 import categoriesReducer from '../features/catergories/categoriesSlice';
 import sidebarReducer from '../features/sidebarSlice/sidebarSlice';
+import ErrorHomeReducer from '../features/errorHomeSlice/errorHomeSlice';
+import { configureStore } from '@reduxjs/toolkit';
 
 export const store = configureStore({
   reducer: {
     videos: videosReducer,
     categories: categoriesReducer,
     sidebar: sidebarReducer,
+    errorHome: ErrorHomeReducer,
   },
 })
 

@@ -44,7 +44,7 @@ export const ChannelVideosSection = ({videos, nextPageToken, uploads, setVideos}
                 );
             setVideos((prevState: Videos | null) => ({items: [...(prevState?.items ? prevState.items : []), ...videosResponse.data.items], nextPageToken: videosResponse.data.nextPageToken || null, uploads}))
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
         setPendingMore(false);
     } 

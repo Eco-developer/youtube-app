@@ -1,3 +1,4 @@
+import TextTruncate from "react-text-truncate";
 import { Image } from "../image";
 import { Stack } from "@mui/material";
 import { PlaylistPlay } from '@mui/icons-material';
@@ -5,33 +6,23 @@ import {
     CountContainer,
     PlaylistMiniaturContainer,
 } from "./style";
-import { 
-    useNavigate, 
-    useSearchParams 
-} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { request } from "../../services";
 import { Playlist } from "../../interfaces";
 import { VIDEO } from '../../const/routes';
-import { KEY, PART } from "../../const/youtube-api";
+import { 
+    KEY, 
+    PART 
+} from "../../const/youtube-api";
 
 interface VideoCardProps {
     playlist: Playlist,
 }
 
 export const PlaylistMiniatur = ({playlist}: VideoCardProps) => {
-   const [queries, setQueries] = useSearchParams();
     const navigate = useNavigate();
-     /*const { pathname } = useLocation();
-    
-    const handleClick = () => {
-        if (!pathname.includes('video')) {
-            navigate(`${VIDEO}?videoId=${video.contentDetails?.videoId || video.id}`)
-            return;
-        }
-        setQueries({videoId: video.contentDetails?.videoId || video.id})
-    }*/
+
     const onClick = async () => {
-        console.log(playlist)
         try {
             const playlistsItems = await request.get('playlistItems',
                 { 
@@ -43,7 +34,6 @@ export const PlaylistMiniatur = ({playlist}: VideoCardProps) => {
                     }
                 }
             );
-            console.log()
             navigate(`${VIDEO}?videoId=${playlistsItems.data.items[0].contentDetails.videoId}&playlistId=${playlist.id}&position=0`)
         } catch (error) {
             console.error(error);
@@ -51,7 +41,12 @@ export const PlaylistMiniatur = ({playlist}: VideoCardProps) => {
     }
     return (
         <PlaylistMiniaturContainer onClick={onClick}>
-            <Stack spacing={1} style={{maxWidth: "400px"}} width='100%' height={200}>
+            <Stack 
+                spacing={1} 
+                style={{maxWidth: "400px"}} 
+                width='100%' 
+                height={200}
+            >
                 <Stack position='relative'>
                     <Image 
                         width='100%' 
@@ -71,9 +66,12 @@ export const PlaylistMiniatur = ({playlist}: VideoCardProps) => {
                     </CountContainer>                
                 </Stack>
                 <Stack width="100%" marginTop={1}>
-                    <h4>
-                        {playlist.snippet.title}
-                    </h4>
+                    <TextTruncate
+                        line={1}
+                        element="h4"
+                        truncateText="…"
+                        text={playlist.snippet.title}
+                    />   
                 </Stack>
             </Stack>
         </PlaylistMiniaturContainer>

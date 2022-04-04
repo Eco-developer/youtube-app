@@ -84,7 +84,7 @@ export const PlaylistItemsWrapper = styled.div`
 export const MoreBtn = styled.div`
     cursor: pointer;
     padding: 7px 15px;
-    background-color: #050505;
+    background-color: #ff0000;
     color: #FFF;
     display: flex;
     justify-content: center;
@@ -96,10 +96,10 @@ export const MoreBtn = styled.div`
         transition: 0.3s all ease-in-out;
     }
     &:hover {
-        color: #050505;
+        color: #ff0000;
         background-color: #fff;
         svg {
-            color: #050505;
+            color: #ff0000;
         }
     }
 

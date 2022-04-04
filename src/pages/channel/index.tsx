@@ -1,6 +1,11 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { PageContainer } from "../../global-styles/style";
+import { 
+    useEffect, 
+    useState 
+} from "react";
+import { 
+    useNavigate, 
+    useSearchParams 
+} from "react-router-dom";
 import { request } from "../../services";
 import * as API from '../../const/youtube-api';
 import { NotFound } from "../../components/not-found";
@@ -12,6 +17,7 @@ import {
 } from "../../interfaces";
 import { ChannelPageConatiner } from "./style";
 import { Footer } from "../../components/footer";
+import { ChannelMainSkeleton } from "../../components/channel-main-skeleton";
 interface Videos {
     items: Video[], 
     nextPageToken?: string | null | undefined, 
@@ -31,8 +37,6 @@ export const ChannelPage = () => {
     const [queries] = useSearchParams();
     const navigate = useNavigate();
     const channelId = queries.get('channelId');
-
-
 
     useEffect(() => {
         if (!channelId) {
@@ -54,32 +58,7 @@ export const ChannelPage = () => {
                     signal: controller?.signal,
                     }
                 );  
-                console.log(channelResponse.data);
-                const channelsSectionResponse = await request.get('channelSections',
-                    { 
-                    params : {
-                        part: "contentDetails,id,snippet",
-                        channelId,
-                        key:API.KEY,
-                    },
-                    signal: controller?.signal,
-                    }
-                ); 
-                console.log(channelsSectionResponse.data)
 
-                /* const channelSections = channelssection.data.items.map((item: any) => item.contentDetails?.playlists[0]).filter((item:any) => !!item)
-                const playlistMainResponse = await request.get('playlists',
-                    { 
-                        params : {
-                            part: 'id,snippet,status',
-                            id: channelSections.join(','),
-                            maxResults: '50',
-                            key:API.KEY,
-                        }
-                    }
-                )
-                console.log(playlistMainResponse.data);
-*/
                 const playlistsSectionResponse = await request.get('playlists',
                     { 
                         params : {
@@ -115,19 +94,20 @@ export const ChannelPage = () => {
                 setVideos({items: videosItems, nextPageToken: videosSectionResponse.data.nextPageToken, uploads: channelResponse.data.items[0].contentDetails.relatedPlaylists.uploads});
                 setPlaylists({items: playlistsSectionResponse.data.items, nextPageToken: playlistsSectionResponse.data.nextPageToken})
 
-                } catch (errorRes: any) {
-                    console.log(errorRes)
-                    if (errorRes) {
+                } catch (error: any) {
+                    if (error) {
                         setError(true);
                     } 
                 }
                 controller = null;
             }
             setError(false);
+            setVideos(null);
+            setPlaylists(null);
             setChannel(null);
             fetchApi();
             return () => controller?.abort()
-    }, [])
+    }, [channelId])
 
     return (
        <ChannelPageConatiner>
@@ -143,7 +123,7 @@ export const ChannelPage = () => {
                             setVideos={setVideos}
                             setPlaylists={setPlaylists}
                         />
-                        : null}
+                        : <ChannelMainSkeleton/>}
                        <Footer/> 
                     </>)
                 : <NotFound/>

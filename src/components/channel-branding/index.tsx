@@ -12,23 +12,35 @@ import {
     SetStateAction, 
 } from "react";
 import { logo } from "../../const/images";
+import TextTruncate from 'react-text-truncate';
 
 interface Props {
     bannerExternalUrl?: string,
-    tittle: string,
+    title: string,
     channelAvatar: string,
     subscriberCount: string,
     setSection: Dispatch<SetStateAction<number>>,
 }
 
-export const ChannelBranding = ({bannerExternalUrl, channelAvatar, tittle, subscriberCount, setSection}: Props) => {
+export const ChannelBranding = ({bannerExternalUrl, channelAvatar, title, subscriberCount, setSection}: Props) => {
     return (
         <ChannelBrandingContainer>
             <Banner src={bannerExternalUrl || logo}/>
             <ChannelProfileContainer>
-                <Image src={channelAvatar} width='70px' height={70} alt='avatar' borderRadius="50%"/>
+                <Image 
+                    src={channelAvatar}
+                    width='70px' 
+                    height={70} 
+                    alt='avatar' 
+                    borderRadius="50%" 
+                />
                 <ChannelNameContainer>
-                    <h1>{tittle}</h1>
+                    <TextTruncate
+                        line={1}
+                        element="h1"
+                        truncateText="…"
+                        text={title}
+                    /> 
                     <p>{numeral(subscriberCount).format('0.00a')} subscribers</p>
                 </ChannelNameContainer>
             </ChannelProfileContainer>

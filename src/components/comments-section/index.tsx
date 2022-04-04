@@ -53,7 +53,7 @@ export const CommentsSection = ({commentCount, videoId, nextPageToken, comments,
             setComments({items: commetsRespose.data.items, nextPageToken: commetsRespose.data.nextPageToken});
             
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
         setPendingSort(false);
     }
@@ -79,7 +79,7 @@ export const CommentsSection = ({commentCount, videoId, nextPageToken, comments,
                 )
             setComments((prevState:{items: Comments[], nextPageToken: string | undefined | null} | null) => ({items: [...(prevState ? prevState.items : []), ...commetsRespose.data.items], nextPageToken: commetsRespose.data.nextPageToken || null}))
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
         setPendingMore(false);
     } 

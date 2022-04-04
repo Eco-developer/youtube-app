@@ -54,7 +54,7 @@ export const ChannelPlaylistsSection = ({playlists, nextPageToken, setPlaylists}
             
             setPlaylists((prevState: Playlists | null) => ({items: [...(prevState?.items ? prevState.items : []), ...playlistsSectionResponse.data.items.filter((item: Playlist) => item.contentDetails.itemCount > 1)], nextPageToken: playlistsSectionResponse.data.nextPageToken || null}))
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
         setPendingMore(false);
     } 

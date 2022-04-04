@@ -35,7 +35,13 @@ export const VideoCard = ({video, flexDirection='column', width='100%'}: VideoCa
     }
     return (
         <VideoCardContainer>
-            <Stack spacing={1} style={{maxWidth: "400px"}} width={width} flexDirection={flexDirection} onClick={handleClick}>
+            <Stack 
+                spacing={1} 
+                style={{maxWidth: "400px"}} 
+                width={width} 
+                flexDirection={flexDirection} 
+                onClick={handleClick}
+            >
                 <Image 
                         width='100%' 
                         height={160} 
@@ -57,7 +63,7 @@ export const VideoCard = ({video, flexDirection='column', width='100%'}: VideoCa
                         <Stack marginBottom={1}>
                             <TextTruncate
                                 line={2}
-                                element="h5"
+                                element="h4"
                                 truncateText="…"
                                 text={video.snippet.title}
                             />  

@@ -83,16 +83,139 @@ export const VideoPlaylistSkeleton = () => (
             </Stack>
            
         </Stack>
-        <Stack flexGrow={1}>
-            <Skeleton 
-                animation="wave" 
-                width='100%'
-                height={110}
-                variant='rectangular'
-                style={{
-                    transform:'scale(1)',
-                }}
-            />
+        <Stack
+            flexGrow={1}
+            padding={0}
+            margin={0}
+            display="flex" 
+            flexDirection="column" 
+        >
+            <Stack 
+                padding={1}
+                margin={0}
+                display="flex" 
+                flexDirection="row" 
+            >
+                <Skeleton 
+                    animation="wave" 
+                    width='40%'
+                    height={100}
+                    variant='rectangular'
+                    style={{
+                        transform:'scale(1)',
+                    }}
+                />
+                <Stack
+                    display="flex" 
+                    flexDirection="column" 
+                    flexGrow={1}
+                    width='60%'
+                    paddingLeft={0.6}
+                    margin={0}
+                >
+                    <Skeleton 
+                        animation="wave" 
+                        width='100%'
+                        height={50}
+                        style={{
+                            transform: 'scale(1)',
+                            marginBottom: '5px',
+                        }}
+                    />
+                    <Skeleton 
+                        animation="wave" 
+                        width='80%'
+                        height={20}
+                        style={{
+                            transform: 'scale(1)',
+                        }}
+                    />
+                </Stack>
+            </Stack>
+            <Stack 
+                padding={1}
+                margin={0}
+                display="flex" 
+                flexDirection="row" 
+            >
+                <Skeleton 
+                    animation="wave" 
+                    width='40%'
+                    height={100}
+                    variant='rectangular'
+                    style={{
+                        transform:'scale(1)',
+                    }}
+                />
+                <Stack
+                    display="flex" 
+                    flexDirection="column" 
+                    flexGrow={1}
+                    width='60%'
+                    paddingLeft={0.6}
+                    margin={0}
+                >
+                    <Skeleton 
+                        animation="wave" 
+                        width='100%'
+                        height={50}
+                        style={{
+                            transform: 'scale(1)',
+                            marginBottom: '5px',
+                        }}
+                    />
+                    <Skeleton 
+                        animation="wave" 
+                        width='80%'
+                        height={20}
+                        style={{
+                            transform: 'scale(1)',
+                        }}
+                    />
+                </Stack>
+            </Stack>
+            <Stack 
+                padding={1}
+                margin={0}
+                display="flex" 
+                flexDirection="row" 
+            >
+                <Skeleton 
+                    animation="wave" 
+                    width='40%'
+                    height={100}
+                    variant='rectangular'
+                    style={{
+                        transform:'scale(1)',
+                    }}
+                />
+                <Stack
+                    display="flex" 
+                    flexDirection="column" 
+                    flexGrow={1}
+                    width='60%'
+                    paddingLeft={0.6}
+                    margin={0}
+                >
+                    <Skeleton 
+                        animation="wave" 
+                        width='100%'
+                        height={50}
+                        style={{
+                            transform: 'scale(1)',
+                            marginBottom: '5px',
+                        }}
+                    />
+                    <Skeleton 
+                        animation="wave" 
+                        width='80%'
+                        height={20}
+                        style={{
+                            transform: 'scale(1)',
+                        }}
+                    />
+                </Stack>
+            </Stack>
         </Stack>
         <Stack 
             display="flex" 

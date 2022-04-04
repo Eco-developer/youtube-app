@@ -5,6 +5,7 @@ import { useAppDispatch } from './hooks/index';
 import { request } from './services/index';
 import { setVideos } from './features/videos/videosSlice';
 import { setCategories } from './features/catergories/categoriesSlice';
+import { setError } from './features/errorHomeSlice/errorHomeSlice';
 import { 
 	Video, 
 	Channel,
@@ -16,6 +17,7 @@ function App() {
   
   const dispatch = useAppDispatch();
   useEffect(()=> {
+		let controller: AbortController | null = new AbortController();
 		const fetchApi = async () => {
 			try {
 				
@@ -26,7 +28,8 @@ function App() {
 							part: API.PART.VIDEOS,
 							chart:'mostPopular',
 							key: API.KEY,
-						}
+						},
+						signal: controller?.signal
 					}
 				);
 				const videosItems : Video[] = videosResponse.data.items
@@ -38,7 +41,8 @@ function App() {
 							maxResults: API.PART.VIDEOS,
 							part: API.PART.CATEGORIES,
 							key: API.KEY,
-						}
+						},
+						signal: controller?.signal
 					}
 				)
 				const categories : Category[] = categoryResponse.data.items.filter((item:any) => item.snippet.assignable);
@@ -52,7 +56,8 @@ function App() {
 							id: channelsId.join(','),
 							key:API.KEY,
 							
-						}
+						},
+						signal: controller?.signal
 					}
 				);
 				
@@ -66,11 +71,15 @@ function App() {
 				})
 				dispatch(setVideos(homeVideos));
 				dispatch(setCategories(categories));
-			} catch (err) {
-				console.error(err)
+			} catch (error) {
+				if(error) {
+					dispatch(setError(true));
+				}
 			}
+			controller = null;
 		}
 		fetchApi()
+		return () => controller?.abort()
 	}, [])
   return (
     <div className="App">

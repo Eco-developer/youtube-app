@@ -26,7 +26,6 @@ export const MenubarItemsBase = styled.ul`
   position: relative;
   margin-right: auto;
   list-style: none;
-
 `;
 
 export const Item = styled.li<{current: boolean}>`

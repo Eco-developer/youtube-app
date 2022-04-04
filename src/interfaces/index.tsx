@@ -12,6 +12,8 @@ import { Comment } from "./comment";
 import { Replies } from "./replies";
 import { Category } from "./category";
 import { Playlist } from "./playlist";
+import { BrandingSettings } from "./branding-settings";
+import { ChannelStatistics } from "./channel-statistics";
 
 export type { 
     Video,
@@ -28,4 +30,6 @@ export type {
     Replies,
     Category,
     Playlist,
+    BrandingSettings,
+    ChannelStatistics,
 }

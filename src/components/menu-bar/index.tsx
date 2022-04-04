@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const MenuBar = ({setSection}: Props) => {
-    const items = ["Home", "Videos", "Lists", "Info"];
+    const items = ["Videos", "Lists", "Info"];
     const [current, setCurrent] = useState<number>(0);
     
     const handleClick = (index: number) => {
@@ -26,7 +26,6 @@ export const MenuBar = ({setSection}: Props) => {
         <MenubarContainer>
             <MenubarItemsBase>
 				{items.map((item: string, index: number) => (
-
                     <Item 
                         key={uuid()}
                         current={index === current} 
