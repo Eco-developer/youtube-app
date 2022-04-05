@@ -144,6 +144,7 @@ export const VideoPage = () => {
         setVideo(null);
         setComments(null);
         setVideos(null);
+        setPlaylistItems(null);
         fetchApi();
         return () => controller?.abort()
     }, [videoId])

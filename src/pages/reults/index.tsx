@@ -96,7 +96,7 @@ export const ResultsPage = () => {
           setVideos({items: videosItems, nextPageToken: searchResponse.data.nextPageToken})
            
           } catch (errorRes: any) {
-
+              console.log(errorRes)
               if (errorRes) {
                   setError(true);
               } 
@@ -111,7 +111,7 @@ export const ResultsPage = () => {
 
   return (
     <ResultsPageContainer> 
-      {error ? (
+      {!error ? (
         <>
           <ResulstMain 
             videos={videos?.items} 
