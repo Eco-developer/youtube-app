@@ -98,7 +98,7 @@ export const VideoPage = () => {
                     }
                 );
 
-                if (playlistId && !playlistItems) {
+                if (playlistId) {
                     const playlistItemsResponse = await request.get('playlistItems',
                         { 
                             params : {
