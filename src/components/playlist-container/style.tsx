@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
-    height: 550px;
+export const Container = styled.div<{clicked: boolean}>`
+    height: ${props => !props.clicked ? '550px' : 'auto'};
     width: 100%;
     border: 2px solid #e9e9e9;
     display: flex;

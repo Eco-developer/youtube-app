@@ -45,8 +45,8 @@ export const VideoPlaylistBase = ({playlist, nextPageToken, setPlaylistItems, pl
     const prevPosition: number | null = playlist ? (parseInt(currentPosition) === 0 ? null : parseInt(currentPosition) - 1) : null; 
     const nextPosition: number | null = playlist ? (parseInt(currentPosition) === playlist.length - 1 ? null : parseInt(currentPosition) + 1) : null;  
 
-    const prevVideoId: string | null | undefined = playlist ? (prevPosition !== null ? playlist[prevPosition].snippet.resourceId?.videoId : null) : null;  
-    const nextVideoId: string | null | undefined = playlist ? (nextPosition ? playlist[nextPosition].snippet.resourceId?.videoId : null) : null; 
+    const prevVideoId: string | null | undefined = playlist ? (prevPosition !== null ? playlist[prevPosition]?.snippet?.resourceId?.videoId : null) : null;  
+    const nextVideoId: string | null | undefined = playlist ? (nextPosition ? playlist[nextPosition]?.snippet?.resourceId?.videoId : null) : null; 
 
     const fethMorePlaylistItems = async () => {
 

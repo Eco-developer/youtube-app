@@ -63,7 +63,7 @@ export const PlaylistContainer = ({playlistData, children, position, pendingMore
     };
 
     return (
-        <Container>
+        <Container clicked={clicked}>
             <PlaylistInfoContainer>
                 <InfoContainer>
                     <PlaylistTittle>
